@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.LightSwitches {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 1em;
+}
+
+.SwitchAndColorPicker {
+  text-align: left;
+}
