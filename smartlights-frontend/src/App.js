@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { SketchPicker } from 'react-color';
@@ -7,7 +7,7 @@ import reactCSS from 'reactcss';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
-    color: '#fff',
+    color: this.props.color,
     displayColorPicker: false,
   };
 
@@ -61,10 +61,13 @@ class SwitchAndColorPicker extends React.Component {
         </div>;
     }
 
+    const switchControl =
+      <Switch checked={this.props.power === 'on'} />
+
     return (
       <div className="SwitchAndColorPicker">
         <div style={ styles.colorButton } onClick={ this.handleClick } />
-        <FormControlLabel control={<Switch />} label={this.props.label} />
+        <FormControlLabel control={switchControl} label={this.props.label} />
         { colorPicker }
       </div>
     );
@@ -72,14 +75,35 @@ class SwitchAndColorPicker extends React.Component {
 }
 
 function App() {
+  const [lights, setLights] = useState([]);
+  const fetchLights = () => {
+    fetch('http://localhost:8000/v1/lights')
+      .then(res => res.json())
+      .then(lightStates => {
+        setLights(lightStates.map(lightState => {
+          const hexColor = lightState.color ?
+            `#${Number(lightState.color).toString(16)}`
+            : null;
+
+          return <SwitchAndColorPicker
+            key={lightState.id}
+            label={lightState.name}
+            color={hexColor}
+            power={lightState.power}
+            brightness={lightState.brightness}
+          />
+        }));
+      });
+  }
+
+  useEffect(fetchLights, []);
+
   return (
     <div className="App">
       <h1>Light switches</h1>
       <FormGroup className="LightSwitches">
         <FormControlLabel control={<Switch />} label="All lights" />
-        <SwitchAndColorPicker label="Bedroom" />
-        <SwitchAndColorPicker label="Livingroom" />
-        <SwitchAndColorPicker label="Kitchen" />
+        { lights }
       </FormGroup>
     </div>
   );

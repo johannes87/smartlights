@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { getLights } = require('./lib/lights-repository');
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 
 // API usage:
