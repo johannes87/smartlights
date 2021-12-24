@@ -1,9 +1,8 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
-const lightTypeYeelight = require('./light-types/yeelight');
 
 const lightTypes = {
-    'yeelight': lightTypeYeelight,
+    'yeelight': require('./light-types/yeelight'),
 };
 
 function parseConfig() {
