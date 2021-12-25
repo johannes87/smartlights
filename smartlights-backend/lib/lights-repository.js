@@ -10,6 +10,8 @@ function parseConfig() {
     return yaml.load(file);
 }
 
+const config = parseConfig();
+
 async function getLightStatus(lightConfig) {
     let lightStatus = {
         id: lightConfig.id,
@@ -29,8 +31,6 @@ async function getLightStatus(lightConfig) {
 }
 
 async function getLights() {
-    const config = parseConfig();
-
     // We want an array of objects where each object has a key "id" with the light ID
     const configArray = Object
         .entries(config)
@@ -49,7 +49,9 @@ async function getLights() {
 
 
 function setLightPower(id, power) {
-
+    const lightConfig = config[id];
+    const lightType = lightTypes[lightConfig.type];
+    lightType.setPower(lightConfig.host, power);
 }
 
 function setLightBrightness(id, brightness) {

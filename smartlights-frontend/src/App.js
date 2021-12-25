@@ -3,11 +3,13 @@ import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
+import { setLightPower } from './API';
 
 
 class SwitchAndColorPicker extends React.Component {
   state = {
     color: this.props.color,
+    power: this.props.power,
     displayColorPicker: false,
   };
 
@@ -21,6 +23,12 @@ class SwitchAndColorPicker extends React.Component {
 
   handleChange = (color) => {
     this.setState({ color: color.hex })
+  };
+
+  handleSwitchChange = () => {
+    const newPowerState = this.state.power === 'on' ? 'off' : 'on';
+    this.setState({ power: newPowerState });
+    setLightPower(this.props.lightId, newPowerState);
   };
 
   render() {
@@ -62,12 +70,15 @@ class SwitchAndColorPicker extends React.Component {
     }
 
     const switchControl =
-      <Switch checked={this.props.power === 'on'} />
+      <Switch
+        checked={ this.state.power === 'on' }
+        onChange={ this.handleSwitchChange }
+      />
 
     return (
       <div className="SwitchAndColorPicker">
         <div style={ styles.colorButton } onClick={ this.handleClick } />
-        <FormControlLabel control={switchControl} label={this.props.label} />
+        <FormControlLabel control={ switchControl } label={ this.props.label } />
         { colorPicker }
       </div>
     );
@@ -87,6 +98,7 @@ function App() {
 
           return <SwitchAndColorPicker
             key={lightState.id}
+            lightId={lightState.id}
             label={lightState.name}
             color={hexColor}
             power={lightState.power}

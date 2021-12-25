@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { getLights } = require('./lib/lights-repository');
+const lightsRepository = require('./lib/lights-repository');
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 // GET /v1/lights: return all lights, including brightness, power state, and color for each light.
 
 app.get('/v1/lights', async (req, res) => {
-    const lights = await getLights();
+    const lights = await lightsRepository.getLights();
     res.json(lights);
 });
 
@@ -21,6 +21,7 @@ app.put('/v1/lights/all', (req, res) => {
 });
 
 app.put('/v1/lights/:id', (req, res) => {
+    lightsRepository.setLightPower(req.params.id, req.body.power);
     res.json(req.body);
 });
 

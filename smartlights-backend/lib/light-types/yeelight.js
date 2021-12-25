@@ -1,4 +1,4 @@
-const { Bulb } = require('yeelight.io');
+const { Bulb, on, off } = require('yeelight.io');
 
 const timeoutMs = 500;
 
@@ -30,7 +30,11 @@ async function getStatus(host) {
 }
 
 function setPower(host, power) {
-
+    if (power === 'on') {
+        on(host);
+    } else {
+        off(host);
+    }
 }
 
 function setColor(host, color) {
@@ -43,4 +47,7 @@ function setBrightness(host, brightness) {
 
 module.exports = {
     getStatus: getStatus,
+    setPower: setPower,
+    setColor: setColor,
+    setBrightness: setBrightness,
 };
