@@ -3,7 +3,7 @@ import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
-import { setLightPower } from './API';
+import { getLights, setLightPower } from './API';
 
 
 class SwitchAndColorPicker extends React.Component {
@@ -88,8 +88,7 @@ class SwitchAndColorPicker extends React.Component {
 function App() {
   const [lights, setLights] = useState([]);
   const fetchLights = () => {
-    fetch('http://localhost:8000/v1/lights')
-      .then(res => res.json())
+    getLights()
       .then(lightStates => {
         setLights(lightStates.map(lightState => {
           const hexColor = lightState.color ?
@@ -105,7 +104,7 @@ function App() {
             brightness={lightState.brightness}
           />
         }));
-      });
+      })
   }
 
   useEffect(fetchLights, []);

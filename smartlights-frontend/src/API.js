@@ -1,5 +1,11 @@
 const apiEndpoint = "http://localhost:8000";
 
+const getLights = async () => {
+  const result = await fetch(`${apiEndpoint}/v1/lights`);
+  const lightStates = await result.json();
+  return lightStates;
+}
+
 const setLightPower = (id, power) => {
   fetch(`${apiEndpoint}/v1/lights/${id}`, {
     method: "PUT",
@@ -10,4 +16,4 @@ const setLightPower = (id, power) => {
   });
 };
 
-export { setLightPower };
+export { getLights, setLightPower };
