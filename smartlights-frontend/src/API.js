@@ -20,12 +20,8 @@ const setLightPower = (lightId, power) => {
   sendJSON('PUT', `v1/lights/${lightId}`, { power });
 };
 
-const setLightColor = (lightId, color) => {
-  sendJSON('PUT', `v1/lights/${lightId}`, { color });
-};
-
-const setLightBrightness = (lightId, brightness) => {
-  sendJSON('PUT', `v1/lights/${lightId}`, { brightness });
+const setLightColorAndBrightness = (lightId, color, brightness) => {
+  sendJSON('PUT', `v1/lights/${lightId}`, { color, brightness });
 }
 
-export { getLights, setLightPower, setLightColor, setLightBrightness };
+export { getLights, setLightPower, setLightColorAndBrightness };

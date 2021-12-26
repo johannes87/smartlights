@@ -26,8 +26,11 @@ class SwitchAndColorPicker extends React.Component {
   handleColorChange = (color) => {
     this.setState({ color });
     const lightColor = { r: color.r, g: color.g, b: color.b };
-    API.setLightColor(this.props.lightId, lightColor);
-    API.setLightBrightness(this.props.lightId, color.a * 100);
+    API.setLightColorAndBrightness(
+      this.props.lightId,
+      lightColor,
+      color.a * 100
+    );
   };
 
   handleSwitchChange = () => {
