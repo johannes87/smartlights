@@ -14,6 +14,9 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleClick = () => {
+    if (this.state.power === 'disconnected') {
+      return;
+    }
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
