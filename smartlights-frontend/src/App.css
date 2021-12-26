@@ -34,4 +34,10 @@
   margin-right: 0.8em;
   position: relative;
   top: 7px;
+  opacity: 0.3;
+}
+
+.ColorButton.Enabled {
+  opacity: 1.0;
+  cursor: pointer;
 }

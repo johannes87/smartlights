@@ -35,12 +35,12 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   render() {
-    const styles = {
-      colorButton: {
-        background: this.state.color,
-        cursor: 'pointer',
-      },
-    };
+    let colorButtonClasses = 'ColorButton';
+    let colorButtonStyle = null;
+    if (this.state.power !== 'disconnected') {
+      colorButtonClasses += ' Enabled';
+      colorButtonStyle = { background: this.state.color };
+    }
 
     let colorPicker = null;
     if (this.state.displayColorPicker) {
@@ -60,7 +60,11 @@ class SwitchAndColorPicker extends React.Component {
 
     return (
       <div className="SwitchAndColorPicker">
-        <div style={ styles.colorButton } className="ColorButton" onClick={ this.handleClick } />
+        <div
+          className={ colorButtonClasses }
+          style={ colorButtonStyle }
+          onClick={ this.handleClick }
+        />
         <FormControlLabel control={ switchControl } label={ this.props.label } />
         { colorPicker }
       </div>
