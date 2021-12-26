@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
-import { SketchPicker } from 'react-color';
+import { RgbaColorPicker } from 'react-colorful';
 import * as API from './API';
 
 
 class SwitchAndColorPicker extends React.Component {
   state = {
-    color: this.props.color,
+    color: { ...this.props.color, a: (this.props.brightness / 100) },
     power: this.props.power,
     displayColorPicker: false,
   };
@@ -24,8 +24,9 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleColorChange = (color) => {
-    this.setState({ color: color.hex });
-    API.setLightColor(this.props.lightId, color.rgb);
+    this.setState({ color });
+    const lightColor = { r: color.r, g: color.g, b: color.b };
+    API.setLightColor(this.props.lightId, lightColor);
   };
 
   handleSwitchChange = () => {
@@ -39,32 +40,39 @@ class SwitchAndColorPicker extends React.Component {
     let colorButtonStyle = null;
     if (this.state.power !== 'disconnected') {
       colorButtonClasses += ' Enabled';
-      colorButtonStyle = { background: this.state.color };
+
+      const {r, g, b, a} = this.state.color;
+      colorButtonStyle = {
+        background: `rgba(${r},${g},${b},${a})`,
+      };
     }
 
-    let colorPicker = null;
-    if (this.state.displayColorPicker) {
-      colorPicker =
-        <div className="ColorPicker">
-          <div className="Cover" onClick={ this.handleColorPickerClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.handleColorChange } />
-        </div>;
-    }
+    const colorButton =
+      <div
+        className={ colorButtonClasses }
+        style={ colorButtonStyle }
+        onClick={ this.handleColorButtonClick }
+      />;
 
     const switchControl =
       <Switch
         disabled={ this.state.power === 'disconnected' }
         checked={ this.state.power === 'on' }
         onChange={ this.handleSwitchChange }
-      />
+      />;
+
+    let colorPicker = null;
+    if (this.state.displayColorPicker) {
+      colorPicker =
+        <div className="ColorPicker">
+          <div className="Cover" onClick={ this.handleColorPickerClose }/>
+          <RgbaColorPicker color={ this.state.color } onChange={ this.handleColorChange } />
+        </div>;
+    }
 
     return (
       <div className="SwitchAndColorPicker">
-        <div
-          className={ colorButtonClasses }
-          style={ colorButtonStyle }
-          onClick={ this.handleColorButtonClick }
-        />
+        { colorButton }
         <FormControlLabel control={ switchControl } label={ this.props.label } />
         { colorPicker }
       </div>
@@ -80,15 +88,11 @@ function App() {
     API.getLights()
       .then(lightStates => {
         setLights(lightStates.map(lightState => {
-          const hexColor = lightState.color ?
-            `#${Number(lightState.color).toString(16)}`
-            : null;
-
           return <SwitchAndColorPicker
             key={lightState.id}
             lightId={lightState.id}
             label={lightState.name}
-            color={hexColor}
+            color={lightState.color}
             power={lightState.power}
             brightness={lightState.brightness}
           />
