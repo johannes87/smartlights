@@ -74,6 +74,8 @@ class SwitchAndColorPicker extends React.Component {
 
 function App() {
   const [lights, setLights] = useState([]);
+  const [lightsLoaded, setLightsLoaded] = useState(false);
+
   const fetchLights = () => {
     API.getLights()
       .then(lightStates => {
@@ -91,6 +93,7 @@ function App() {
             brightness={lightState.brightness}
           />
         }));
+        setLightsLoaded(true);
       })
   }
 
@@ -101,6 +104,7 @@ function App() {
       <h1>Light switches</h1>
       <FormGroup className="LightSwitches">
         <FormControlLabel control={<Switch />} label="All lights" />
+        { !lightsLoaded && <div className='LoaderContainer'><div className='Loader' /></div> }
         { lights }
       </FormGroup>
     </div>
