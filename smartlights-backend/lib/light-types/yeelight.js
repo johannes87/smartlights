@@ -12,10 +12,16 @@ async function getStatus(host) {
             const status = bulb.status();
             bulb.disconnect();
 
+            const color = {
+                r: (status.rgb >> 16) & 0xff,
+                g: (status.rgb >> 8) & 0xff,
+                b: status.rgb & 0xff,
+            };
+
             resolve({
                 power: status.power,
                 brightness: status.bright,
-                color: status.rgb,
+                color: color,
             });
         });
         bulb.on('error', () => {
