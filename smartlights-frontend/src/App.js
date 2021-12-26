@@ -12,18 +12,18 @@ class SwitchAndColorPicker extends React.Component {
     displayColorPicker: false,
   };
 
-  handleClick = () => {
+  handleColorButtonClick = () => {
     if (this.state.power === 'disconnected') {
       return;
     }
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
-  handleClose = () => {
+  handleColorPickerClose = () => {
     this.setState({ displayColorPicker: false });
   };
 
-  handleChange = (color) => {
+  handleColorChange = (color) => {
     this.setState({ color: color.hex })
   };
 
@@ -45,8 +45,8 @@ class SwitchAndColorPicker extends React.Component {
     if (this.state.displayColorPicker) {
       colorPicker =
         <div className="ColorPicker">
-          <div className="Cover" onClick={ this.handleClose }/>
-          <SketchPicker color={ this.state.color } onChange={ this.handleChange } />
+          <div className="Cover" onClick={ this.handleColorPickerClose }/>
+          <SketchPicker color={ this.state.color } onChange={ this.handleColorChange } />
         </div>;
     }
 
@@ -62,7 +62,7 @@ class SwitchAndColorPicker extends React.Component {
         <div
           className={ colorButtonClasses }
           style={ colorButtonStyle }
-          onClick={ this.handleClick }
+          onClick={ this.handleColorButtonClick }
         />
         <FormControlLabel control={ switchControl } label={ this.props.label } />
         { colorPicker }
