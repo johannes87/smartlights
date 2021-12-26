@@ -21,7 +21,13 @@ app.put('/v1/lights/all', (req, res) => {
 });
 
 app.put('/v1/lights/:id', (req, res) => {
-    lightsRepository.setLightPower(req.params.id, req.body.power);
+    if (req.body.power) {
+        lightsRepository.setLightPower(req.params.id, req.body.power);
+    }
+    if (req.body.color) {
+        lightsRepository.setLightColor(req.params.id, req.body.color);
+    }
+
     res.json(req.body);
 });
 

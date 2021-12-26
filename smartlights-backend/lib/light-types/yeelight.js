@@ -1,10 +1,10 @@
-const { Bulb, on, off } = require('yeelight.io');
+const yeelight = require('yeelight.io');
 
 const timeoutMs = 500;
 
 async function getStatus(host) {
     return new Promise((resolve, reject) => {
-        const bulb = new Bulb(host);
+        const bulb = new yeelight.Bulb(host);
         bulb.on('connected', () => {
             bulb.getProps();
         });
@@ -31,14 +31,14 @@ async function getStatus(host) {
 
 function setPower(host, power) {
     if (power === 'on') {
-        on(host);
+        yeelight.on(host);
     } else {
-        off(host);
+        yeelight.off(host);
     }
 }
 
 function setColor(host, color) {
-
+    yeelight.color(host, color.r, color.g, color.b);
 }
 
 function setBrightness(host, brightness) {

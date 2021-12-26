@@ -54,11 +54,13 @@ function setLightPower(id, power) {
     lightType.setPower(lightConfig.host, power);
 }
 
-function setLightBrightness(id, brightness) {
-
+function setLightColor(id, color) {
+    const lightConfig = config[id];
+    const lightType = lightTypes[lightConfig.type];
+    lightType.setColor(lightConfig.host, color);
 }
 
-function setLightColor(id, color) {
+function setLightBrightness(id, brightness) {
 
 }
 
