@@ -42,7 +42,7 @@ function setColor(host, color) {
 }
 
 function setBrightness(host, brightness) {
-
+    yeelight.brightness(host, brightness);
 }
 
 module.exports = {

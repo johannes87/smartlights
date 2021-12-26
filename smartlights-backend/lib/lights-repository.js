@@ -48,20 +48,22 @@ async function getLights() {
 }
 
 
-function setLightPower(id, power) {
-    const lightConfig = config[id];
+function setLightPower(lightId, power) {
+    const lightConfig = config[lightId];
     const lightType = lightTypes[lightConfig.type];
     lightType.setPower(lightConfig.host, power);
 }
 
-function setLightColor(id, color) {
-    const lightConfig = config[id];
+function setLightColor(lightId, color) {
+    const lightConfig = config[lightId];
     const lightType = lightTypes[lightConfig.type];
     lightType.setColor(lightConfig.host, color);
 }
 
-function setLightBrightness(id, brightness) {
-
+function setLightBrightness(lightId, brightness) {
+    const lightConfig = config[lightId];
+    const lightType = lightTypes[lightConfig.type];
+    lightType.setBrightness(lightConfig.host, brightness);
 }
 
 module.exports = {
