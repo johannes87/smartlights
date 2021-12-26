@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { SketchPicker } from 'react-color';
-import reactCSS from 'reactcss';
 import { getLights, setLightPower } from './API';
 
 
