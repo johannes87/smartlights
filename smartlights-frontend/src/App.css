@@ -12,3 +12,26 @@
 .SwitchAndColorPicker {
   text-align: left;
 }
+
+.ColorPicker {
+  position: absolute;
+  z-index: 2;
+}
+
+.ColorPicker .Cover {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.ColorButton {
+  display: inline-flex;
+  border: 1px solid black;
+  width: 20px;
+  height: 20px;
+  margin-right: 0.8em;
+  position: relative;
+  top: 7px;
+}

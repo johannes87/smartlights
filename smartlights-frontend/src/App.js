@@ -32,39 +32,18 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   render() {
-    const styles = reactCSS({
-      'default': {
-        colorButton: {
-          background: this.state.color,
-          display: 'inline-flex',
-          border: '1px solid black',
-          borderRadius: '4px',
-          width: '20px',
-          height: '20px',
-          marginRight: '0.8em',
-          cursor: 'pointer',
-          position: 'relative',
-          top: '7px',
-        },
-        popover: {
-          position: 'absolute',
-          zIndex: '2',
-        },
-        cover: {
-          position: 'fixed',
-          top: '0px',
-          right: '0px',
-          bottom: '0px',
-          left: '0px',
-        },
+    const styles = {
+      colorButton: {
+        background: this.state.color,
+        cursor: 'pointer',
       },
-    });
+    };
 
     let colorPicker = null;
     if (this.state.displayColorPicker) {
       colorPicker =
-        <div style={ styles.popover }>
-          <div className="cover" style={ styles.cover } onClick={ this.handleClose }/>
+        <div className="ColorPicker">
+          <div className="Cover" onClick={ this.handleClose }/>
           <SketchPicker color={ this.state.color } onChange={ this.handleChange } />
         </div>;
     }
@@ -78,7 +57,7 @@ class SwitchAndColorPicker extends React.Component {
 
     return (
       <div className="SwitchAndColorPicker">
-        <div style={ styles.colorButton } onClick={ this.handleClick } />
+        <div style={ styles.colorButton } className="ColorButton" onClick={ this.handleClick } />
         <FormControlLabel control={ switchControl } label={ this.props.label } />
         { colorPicker }
       </div>
