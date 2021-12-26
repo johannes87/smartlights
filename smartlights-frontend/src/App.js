@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { SketchPicker } from 'react-color';
-import { getLights, setLightPower } from './API';
+import * as API from './API';
 
 
 class SwitchAndColorPicker extends React.Component {
@@ -30,7 +30,7 @@ class SwitchAndColorPicker extends React.Component {
   handleSwitchChange = () => {
     const newPowerState = this.state.power === 'on' ? 'off' : 'on';
     this.setState({ power: newPowerState });
-    setLightPower(this.props.lightId, newPowerState);
+    API.setLightPower(this.props.lightId, newPowerState);
   };
 
   render() {
@@ -74,7 +74,7 @@ class SwitchAndColorPicker extends React.Component {
 function App() {
   const [lights, setLights] = useState([]);
   const fetchLights = () => {
-    getLights()
+    API.getLights()
       .then(lightStates => {
         setLights(lightStates.map(lightState => {
           const hexColor = lightState.color ?
