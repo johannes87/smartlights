@@ -71,6 +71,7 @@ class SwitchAndColorPicker extends React.Component {
 
     const switchControl =
       <Switch
+        disabled={ this.state.power === 'disconnected' }
         checked={ this.state.power === 'on' }
         onChange={ this.handleSwitchChange }
       />

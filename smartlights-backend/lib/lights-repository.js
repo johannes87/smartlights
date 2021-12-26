@@ -16,7 +16,7 @@ async function getLightStatus(lightConfig) {
     let lightStatus = {
         id: lightConfig.id,
         name: lightConfig.name,
-        power: 'off',
+        power: 'disconnected',
     };
     const lightType = lightTypes[lightConfig.type];
 
