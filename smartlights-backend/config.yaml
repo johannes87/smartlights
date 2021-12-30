@@ -1,12 +1,12 @@
 livingroom_window:
   name: Livingroom Window
-  host: 192.168.1.216
+  host: 'yeelink-light-color2_miap91ae'
   type: yeelight
 livingroom_kitchen:
   name: Livingroom Kitchen
-  host: 192.168.1.213
+  host: 'yeelink-light-color2_miapb81f'
   type: yeelight
 bedroom:
   name: Bedroom
-  host: 192.168.1.186
+  host: 'yeelink-light-color2_miapa322'
   type: yeelight
