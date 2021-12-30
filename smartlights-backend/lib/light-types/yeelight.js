@@ -20,15 +20,20 @@ async function getIPv4(hostname) {
     const ipv4Addresses = await dnsPromises.resolve4(hostname);
     if (ipv4Addresses.length != 0) {
         dnsCache[hostname] = ipv4Addresses[0];
-        return ipv4Addresses[0];
+        return dnsCache[hostname];
     } else {
-        return null;
+        throw new Error("No IPs in result");
     }
 }
 
 async function getStatus(host) {
     return new Promise(async (resolve, reject) => {
-        const ipv4 = await getIPv4(host);
+        let ipv4 = null;
+        try {
+            ipv4 = await getIPv4(host);
+        } catch (error) {
+            reject(`Could not resolve host ${host}: ${error}`);
+        }
         const bulb = new yeelight.Bulb(ipv4);
 
         bulb.on('connected', () => {
@@ -47,11 +52,11 @@ async function getStatus(host) {
             resolve({
                 power: status.power,
                 brightness: status.bright,
-                color: color,
+                color,
             });
         });
         bulb.on('error', () => {
-            reject('Could not connect');
+            reject(`Could not connect to ${ipv4}`);
         });
         bulb.connect();
         setTimeout(() => {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Johannes Bittner",
   "license": "ISC",
@@ -16,6 +16,9 @@
     "yeelight.io": "^1.1.7"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.5",
+    "nodemon": "^2.0.15",
+    "rewire": "^6.0.0"
   }
 }
