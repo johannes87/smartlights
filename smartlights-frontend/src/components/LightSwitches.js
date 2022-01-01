@@ -29,6 +29,9 @@ class LightSwitches extends React.Component {
     };
 
     areAllAvailableLightsTurnedOn = () => {
+      if (Object.values(this.state.lightStatuses).length === 0) {
+        return false;
+      }
       return Object.values(this.state.lightStatuses).every(l => l.power === 'on' || l.power === 'disconnected');
     }
 
