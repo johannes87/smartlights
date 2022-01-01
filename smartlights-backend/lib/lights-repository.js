@@ -14,7 +14,6 @@ const config = parseConfig();
 
 async function getLightStatus(lightConfig) {
     let lightStatus = {
-        id: lightConfig.id,
         name: lightConfig.name,
         power: 'disconnected',
     };
@@ -25,28 +24,27 @@ async function getLightStatus(lightConfig) {
         lightStatus = {...lightStatus, ...fetchedStatus};
         return lightStatus;
     } catch (error) {
-        console.log(`Couldn't reach ${lightConfig.id}: ${error}`);
+        console.log(`Couldn't reach light "${lightConfig.id}" at host "${lightConfig.host}": ${error}`);
     }
     return lightStatus;
 }
 
 async function getLights() {
-    // We want an array of objects where each object has a key "id" with the light ID
-    const configArray = Object
-        .entries(config)
-        .map(([key, value]) => {
-            return {
-                id: key,
-                ...value,
-            };
-        });
-
-    const lightStatuses = await Promise.all(
-        configArray.map(lightConfig => getLightStatus(lightConfig))
+    const lightStatusesArray = await Promise.all(
+        Object.entries(config).map(([lightId, lightConfig]) => {
+            return getLightStatus({id: lightId, ...lightConfig});
+        })
     );
+
+    const lightIds = Object.keys(config);
+    let lightStatuses = {};
+    lightStatusesArray.forEach((lightStatus, idx) => {
+        const lightId = lightIds[idx];
+        lightStatuses[lightId] = lightStatus;
+    });
+
     return lightStatuses;
 }
-
 
 function setLightPower(lightId, power) {
     const lightConfig = config[lightId];

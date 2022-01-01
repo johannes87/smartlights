@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { RgbaColorPicker } from 'react-colorful';
@@ -37,7 +37,15 @@ class SwitchAndColorPicker extends React.Component {
     const newPowerState = this.state.power === 'on' ? 'off' : 'on';
     this.setState({ power: newPowerState });
     API.setLightPower(this.props.lightId, newPowerState);
+    this.props.onPowerChange && this.props.onPowerChange(this.props.lightId, newPowerState);
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.power !== props.power) {
+      return { power: props.power };
+    }
+    return null;
+  }
 
   render() {
     let colorButtonClasses = 'ColorButton';
@@ -84,35 +92,78 @@ class SwitchAndColorPicker extends React.Component {
   }
 }
 
-function App() {
-  const [lights, setLights] = useState([]);
+class LightSwitches extends React.Component {
+  state = {
+    lightStatuses: {},
+  };
 
-  const fetchLights = () => {
-    API.getLights()
-      .then(lightStates => {
-        setLights(lightStates.map(lightState => {
-          return <SwitchAndColorPicker
-            key={lightState.id}
-            lightId={lightState.id}
-            label={lightState.name}
-            color={lightState.color}
-            power={lightState.power}
-            brightness={lightState.brightness}
-          />
-        }));
-      })
+  handleAllLightsSwitchChange = () => {
+    const newLightStatuses = {...this.state.lightStatuses};
+    const newPowerStatus = this.areAllAvailableLightsTurnedOn() ? 'off' : 'on';
+
+    Object.keys(newLightStatuses).forEach(lightId => {
+      if (newLightStatuses[lightId].power !== 'disconnected') {
+        newLightStatuses[lightId].power = newPowerStatus;
+      }
+      API.setLightPower(lightId, newPowerStatus);
+    });
+
+    this.setState({ lightStatuses: newLightStatuses });
+  };
+
+  handleLightPowerChange = (lightId, power) => {
+    let newLightStatuses = {...this.state.lightStatuses};
+    newLightStatuses[lightId].power = power;
+    this.setState({ lightStatuses: newLightStatuses });
+  };
+
+  areAllAvailableLightsTurnedOn = () => {
+    return Object.values(this.state.lightStatuses).every(l => l.power === 'on' || l.power === 'disconnected');
   }
 
-  useEffect(fetchLights, []);
+  async fetchLights() {
+    const lightStatuses = await API.getLights();
+    this.setState({ lightStatuses });
+  }
 
+  componentDidMount() {
+    this.fetchLights();
+  }
+
+  render() {
+    return (
+      <FormGroup className="LightSwitches">
+        <FormControlLabel
+          control={
+            <Switch
+              checked={ this.areAllAvailableLightsTurnedOn() }
+              onChange={ this.handleAllLightsSwitchChange }
+            />
+          }
+          label="All lights"
+        />
+        { Object.values(this.state.lightStatuses).length === 0 && <div className='LoaderContainer'><div className='Loader' /></div> }
+        { Object.entries(this.state.lightStatuses).map(([lightId, lightStatus]) =>
+          <SwitchAndColorPicker
+            key={ lightId }
+            lightId={ lightId }
+            label={ lightStatus.name }
+            color={ lightStatus.color }
+            power={ lightStatus.power }
+            brightness={ lightStatus.brightness }
+            onPowerChange={ this.handleLightPowerChange }
+          />
+        ) }
+      </FormGroup>
+    );
+  }
+}
+
+function App() {
   return (
     <div className="App">
       <h1>Light switches</h1>
-      <FormGroup className="LightSwitches">
-        <FormControlLabel control={<Switch />} label="All lights" />
-        { lights.length === 0 && <div className='LoaderContainer'><div className='Loader' /></div> }
-        { lights }
-      </FormGroup>
+      <LightSwitches />
     </div>
   );
 }
