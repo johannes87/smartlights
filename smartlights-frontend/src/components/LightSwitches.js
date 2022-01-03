@@ -10,7 +10,7 @@ class LightSwitches extends React.Component {
 
     handleAllLightsSwitchChange = () => {
       const newLightStatuses = {...this.state.lightStatuses};
-      const newPowerStatus = this.areAllAvailableLightsTurnedOn() ? 'off' : 'on';
+      const newPowerStatus = this.areSomeAvailableLightsTurnedOn() ? 'off' : 'on';
 
       Object.keys(newLightStatuses).forEach(lightId => {
         if (newLightStatuses[lightId].power !== 'disconnected') {
@@ -28,11 +28,11 @@ class LightSwitches extends React.Component {
       this.setState({ lightStatuses: newLightStatuses });
     };
 
-    areAllAvailableLightsTurnedOn = () => {
+    areSomeAvailableLightsTurnedOn = () => {
       if (Object.values(this.state.lightStatuses).length === 0) {
         return false;
       }
-      return Object.values(this.state.lightStatuses).every(l => l.power === 'on' || l.power === 'disconnected');
+      return Object.values(this.state.lightStatuses).some(l => l.power === 'on' || l.power === 'disconnected');
     }
 
     async fetchLights() {
@@ -50,7 +50,7 @@ class LightSwitches extends React.Component {
           <FormControlLabel
             control={
               <Switch
-                checked={ this.areAllAvailableLightsTurnedOn() }
+                checked={ this.areSomeAvailableLightsTurnedOn() }
                 onChange={ this.handleAllLightsSwitchChange }
               />
             }
