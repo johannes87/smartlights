@@ -1,4 +1,4 @@
-const apiEndpoint = "http://localhost:8000";
+const apiEndpoint = process.env.REACT_APP_BACKEND_URL;
 
 const sendJSON = (httpMethod, path, data) => {
   fetch(`${apiEndpoint}/${path}`, {
