@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build: smartlights-frontend
+    ports:
+      - "4000:3000"
+  backend:
+    build: smartlights-backend
+    ports:
+      - "4001:8000"
