@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import LightSwitches from './components/LightSwitches';
 
-
 function App() {
   return (
     <div className="App">

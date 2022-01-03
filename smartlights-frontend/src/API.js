@@ -14,7 +14,7 @@ const getLights = async () => {
   const result = await fetch(`${apiEndpoint}/v1/lights`);
   const lightStates = await result.json();
   return lightStates;
-}
+};
 
 const setLightPower = (lightId, power) => {
   sendJSON('PUT', `v1/lights/${lightId}`, { power });
@@ -22,6 +22,6 @@ const setLightPower = (lightId, power) => {
 
 const setLightColorAndBrightness = (lightId, color, brightness) => {
   sendJSON('PUT', `v1/lights/${lightId}`, { color, brightness });
-}
+};
 
 export { getLights, setLightPower, setLightColorAndBrightness };
