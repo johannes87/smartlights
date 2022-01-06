@@ -16,10 +16,6 @@ app.get('/v1/lights', async (req, res) => {
   res.json(lights);
 });
 
-app.put('/v1/lights/all', (req, res) => {
-  res.json(req.body);
-});
-
 app.put('/v1/lights/:id', (req, res) => {
   if (req.body.power) {
     lightsRepository.setLightPower(req.params.id, req.body.power);
