@@ -33,7 +33,7 @@ class LightSwitches extends React.Component {
       return false;
     }
     return Object.values(this.state.lightStatuses).some(
-      (l) => l.power === 'on' || l.power === 'disconnected'
+      (l) => l.power === 'on'
     );
   };
 
