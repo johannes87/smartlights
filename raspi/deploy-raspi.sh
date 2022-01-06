@@ -31,7 +31,7 @@ cd ..
 export REACT_APP_BACKEND_URL=$BACKEND_URL
 echo "Building frontend..."
 (cd smartlights-frontend && npm ci --only=production && npm run build)
-rsync -a smartlights-frontend/build/ $DESTINATION:web
+rsync -av --del smartlights-frontend/build/ $DESTINATION:web
 
 # backend
 server_command "cd git && git pull"
