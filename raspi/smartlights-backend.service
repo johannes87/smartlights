@@ -1,0 +1,13 @@
+[Unit]
+Description=smartlights-backend
+After=network.target
+
+[Service]
+Type=simple
+User=smartlights
+WorkingDirectory=/home/smartlights/git/smartlights-backend
+ExecStart=/home/smartlights/node/bin/node index.js
+
+[Install]
+WantedBy=multi-user.target
+
