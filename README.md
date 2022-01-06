@@ -1,5 +1,7 @@
 # Very simple smart lights web app
 
+![Screenshot of web app](/readme-assets/screenshot.png)
+
 - Currently only supports Yeelight
 
 
