@@ -1,8 +1,6 @@
 const yeelight = require('yeelight.io');
 const dnsPromises = require('dns/promises');
 
-const timeoutMs = 500;
-
 let dnsCache = {};
 /**
  * Hack: Get IPv4 from host.
@@ -59,10 +57,11 @@ async function getStatus(host) {
       reject(`Could not connect to ${ipv4}`);
     });
     bulb.connect();
+    const connectTimeout = 500;
     setTimeout(() => {
       bulb.disconnect();
       reject(`Connection timed out to ${ipv4}`);
-    }, timeoutMs);
+    }, connectTimeout);
   });
 }
 
