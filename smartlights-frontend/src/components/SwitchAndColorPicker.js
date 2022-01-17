@@ -1,17 +1,14 @@
 import React from 'react';
 import { RgbaColorPicker } from 'react-colorful';
 import { FormControlLabel, Switch } from '@mui/material';
-import * as API from '../API';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
-    color: { ...this.props.color, a: this.props.brightness / 100 },
-    power: this.props.power,
     displayColorPicker: false,
   };
 
   handleColorButtonClick = () => {
-    if (this.state.power === 'disconnected') {
+    if (this.props.lightStatus.power === 'disconnected') {
       return;
     }
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
@@ -22,37 +19,26 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleColorChange = (color) => {
-    this.setState({ color });
-    const lightColor = { r: color.r, g: color.g, b: color.b };
-    API.setLightColorAndBrightness(
-      this.props.lightId,
-      lightColor,
-      color.a * 100
-    );
+    this.props.onColorChange &&
+      this.props.onColorChange(this.props.lightId, color);
   };
 
   handleSwitchChange = () => {
-    const newPowerState = this.state.power === 'on' ? 'off' : 'on';
-    this.setState({ power: newPowerState });
-    API.setLightPower(this.props.lightId, newPowerState);
     this.props.onPowerChange &&
-      this.props.onPowerChange(this.props.lightId, newPowerState);
+      this.props.onPowerChange(
+        this.props.lightId,
+        this.props.lightStatus.power === 'on' ? 'off' : 'on'
+      );
   };
-
-  static getDerivedStateFromProps(props, state) {
-    if (state.power !== props.power) {
-      return { power: props.power };
-    }
-    return null;
-  }
 
   render() {
     let colorButtonClasses = 'ColorButton';
     let colorButtonStyle = null;
-    if (this.state.power !== 'disconnected') {
+    if (this.props.lightStatus.power !== 'disconnected') {
       colorButtonClasses += ' Enabled';
 
-      const { r, g, b, a } = this.state.color;
+      const { r, g, b } = this.props.lightStatus.color;
+      const a = this.props.lightStatus.brightness / 100;
       colorButtonStyle = {
         background: `rgba(${r},${g},${b},${a})`,
       };
@@ -68,8 +54,8 @@ class SwitchAndColorPicker extends React.Component {
 
     const switchControl = (
       <Switch
-        disabled={this.state.power === 'disconnected'}
-        checked={this.state.power === 'on'}
+        disabled={this.props.lightStatus.power === 'disconnected'}
+        checked={this.props.lightStatus.power === 'on'}
         onChange={this.handleSwitchChange}
       />
     );
@@ -80,7 +66,7 @@ class SwitchAndColorPicker extends React.Component {
         <div className="ColorPicker">
           <div className="Cover" onClick={this.handleColorPickerClose} />
           <RgbaColorPicker
-            color={this.state.color}
+            color={this.props.lightStatus.color}
             onChange={this.handleColorChange}
           />
         </div>
@@ -90,7 +76,10 @@ class SwitchAndColorPicker extends React.Component {
     return (
       <div className="SwitchAndColorPicker">
         {colorButton}
-        <FormControlLabel control={switchControl} label={this.props.label} />
+        <FormControlLabel
+          control={switchControl}
+          label={this.props.lightStatus.name}
+        />
         {colorPicker}
       </div>
     );

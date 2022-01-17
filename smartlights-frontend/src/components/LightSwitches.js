@@ -25,6 +25,18 @@ class LightSwitches extends React.Component {
   handleLightPowerChange = (lightId, power) => {
     let newLightStatuses = { ...this.state.lightStatuses };
     newLightStatuses[lightId].power = power;
+    API.setLightPower(lightId, power);
+    this.setState({ lightStatuses: newLightStatuses });
+  };
+
+  handleLightColorChange = (lightId, color) => {
+    let newLightStatuses = { ...this.state.lightStatuses };
+    newLightStatuses[lightId].color = color;
+    API.setLightColorAndBrightness(
+      lightId,
+      { r: color.r, g: color.g, b: color.b },
+      color.a * 100
+    );
     this.setState({ lightStatuses: newLightStatuses });
   };
 
@@ -68,11 +80,9 @@ class LightSwitches extends React.Component {
           <SwitchAndColorPicker
             key={lightId}
             lightId={lightId}
-            label={lightStatus.name}
-            color={lightStatus.color}
-            power={lightStatus.power}
-            brightness={lightStatus.brightness}
+            lightStatus={lightStatus}
             onPowerChange={this.handleLightPowerChange}
+            onColorChange={this.handleLightColorChange}
           />
         ))}
       </>
