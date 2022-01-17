@@ -32,25 +32,27 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   render() {
-    let colorPickerButtonClasses = 'ColorPickerButton';
-    let colorPickerButtonStyle = null;
-    if (this.props.lightStatus.power !== 'disconnected') {
-      colorPickerButtonClasses += ' Enabled';
+    const colorPickerButton = () => {
+      let colorPickerButtonClasses = 'ColorPickerButton';
+      let colorPickerButtonStyle = null;
+      if (this.props.lightStatus.power !== 'disconnected') {
+        colorPickerButtonClasses += ' Enabled';
 
-      const { r, g, b } = this.props.lightStatus.color;
-      const a = this.props.lightStatus.brightness / 100;
-      colorPickerButtonStyle = {
-        background: `rgba(${r},${g},${b},${a})`,
-      };
+        const { r, g, b } = this.props.lightStatus.color;
+        const a = this.props.lightStatus.brightness / 100;
+        colorPickerButtonStyle = {
+          background: `rgba(${r},${g},${b},${a})`,
+        };
+      }
+
+      return (
+        <div
+          className={colorPickerButtonClasses}
+          style={colorPickerButtonStyle}
+          onClick={this.handleColorButtonClick}
+        />
+      );
     }
-
-    const colorPickerButton = (
-      <div
-        className={colorPickerButtonClasses}
-        style={colorPickerButtonStyle}
-        onClick={this.handleColorButtonClick}
-      />
-    );
 
     const lightSwitch = (
       <Switch
@@ -60,27 +62,30 @@ class SwitchAndColorPicker extends React.Component {
       />
     );
 
-    let colorPicker = null;
-    if (this.state.displayColorPicker) {
-      colorPicker = (
-        <div className="ColorPicker">
-          <div className="Cover" onClick={this.handleColorPickerClose} />
-          <RgbaColorPicker
-            color={this.props.lightStatus.color}
-            onChange={this.handleColorChange}
-          />
-        </div>
-      );
+    const colorPicker = () => {
+      if (this.state.displayColorPicker) {
+        return (
+          <div className="ColorPicker">
+            <div className="Cover" onClick={this.handleColorPickerClose} />
+            <RgbaColorPicker
+              color={this.props.lightStatus.color}
+              onChange={this.handleColorChange}
+            />
+          </div>
+        );
+      } else {
+        return null;
+      }
     }
 
     return (
       <div className="SwitchAndColorPicker">
-        {colorPickerButton}
+        {colorPickerButton()}
         <FormControlLabel
           control={lightSwitch}
           label={this.props.lightStatus.name}
         />
-        {colorPicker}
+        {colorPicker()}
       </div>
     );
   }
