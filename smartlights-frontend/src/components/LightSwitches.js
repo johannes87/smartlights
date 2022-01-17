@@ -65,7 +65,7 @@ class LightSwitches extends React.Component {
         <div className="Loader" />
       </div>
     );
-    const lightSwitches =
+    const lightSwitches = (
       <>
         <FormControlLabel
           control={
@@ -76,16 +76,19 @@ class LightSwitches extends React.Component {
           }
           label="All lights"
         />
-        {Object.entries(this.state.lightStatuses).map(([lightId, lightStatus]) => (
-          <SwitchAndColorPicker
-            key={lightId}
-            lightId={lightId}
-            lightStatus={lightStatus}
-            onPowerChange={this.handleLightPowerChange}
-            onColorChange={this.handleLightColorChange}
-          />
-        ))}
+        {Object.entries(this.state.lightStatuses).map(
+          ([lightId, lightStatus]) => (
+            <SwitchAndColorPicker
+              key={lightId}
+              lightId={lightId}
+              lightStatus={lightStatus}
+              onPowerChange={this.handleLightPowerChange}
+              onColorChange={this.handleLightColorChange}
+            />
+          )
+        )}
       </>
+    );
 
     return (
       <FormGroup className="LightSwitches">

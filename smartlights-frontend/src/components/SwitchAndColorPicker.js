@@ -47,14 +47,8 @@ class SwitchAndColorPicker extends React.Component {
         onClick = this.handleColorButtonClick;
       }
 
-      return (
-        <div
-          className={classNames}
-          style={style}
-          onClick={onClick}
-        />
-      );
-    }
+      return <div className={classNames} style={style} onClick={onClick} />;
+    };
 
     const lightSwitch = (
       <Switch
@@ -78,7 +72,7 @@ class SwitchAndColorPicker extends React.Component {
       } else {
         return null;
       }
-    }
+    };
 
     return (
       <div className="SwitchAndColorPicker">
