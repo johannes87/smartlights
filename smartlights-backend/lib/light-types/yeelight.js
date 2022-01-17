@@ -61,7 +61,7 @@ async function getStatus(host) {
     bulb.connect();
     setTimeout(() => {
       bulb.disconnect();
-      reject('Connection timed out');
+      reject(`Connection timed out to ${ipv4}`);
     }, timeoutMs);
   });
 }
