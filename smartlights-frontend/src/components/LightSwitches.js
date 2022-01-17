@@ -53,28 +53,29 @@ class LightSwitches extends React.Component {
         <div className="Loader" />
       </div>
     );
-    const lightSwitches = [
-      <FormControlLabel
-        control={
-          <Switch
-            checked={this.areSomeAvailableLightsTurnedOn()}
-            onChange={this.handleAllLightsSwitchChange}
-          />
-        }
-        label="All lights"
-      />,
-      Object.entries(this.state.lightStatuses).map(([lightId, lightStatus]) => (
-        <SwitchAndColorPicker
-          key={lightId}
-          lightId={lightId}
-          label={lightStatus.name}
-          color={lightStatus.color}
-          power={lightStatus.power}
-          brightness={lightStatus.brightness}
-          onPowerChange={this.handleLightPowerChange}
+    const lightSwitches =
+      <>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={this.areSomeAvailableLightsTurnedOn()}
+              onChange={this.handleAllLightsSwitchChange}
+            />
+          }
+          label="All lights"
         />
-      )),
-    ];
+        {Object.entries(this.state.lightStatuses).map(([lightId, lightStatus]) => (
+          <SwitchAndColorPicker
+            key={lightId}
+            lightId={lightId}
+            label={lightStatus.name}
+            color={lightStatus.color}
+            power={lightStatus.power}
+            brightness={lightStatus.brightness}
+            onPowerChange={this.handleLightPowerChange}
+          />
+        ))}
+      </>
 
     return (
       <FormGroup className="LightSwitches">
