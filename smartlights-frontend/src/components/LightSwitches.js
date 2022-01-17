@@ -31,11 +31,12 @@ class LightSwitches extends React.Component {
 
   handleLightColorChange = (lightId, color) => {
     let newLightStatuses = { ...this.state.lightStatuses };
-    newLightStatuses[lightId].color = color;
+    newLightStatuses[lightId].color = { r: color.r, g: color.g, b: color.b };
+    newLightStatuses[lightId].brightness = color.a * 100;
     API.setLightColorAndBrightness(
       lightId,
-      { r: color.r, g: color.g, b: color.b },
-      color.a * 100
+      newLightStatuses[lightId].color,
+      newLightStatuses[lightId].brightness
     );
     this.setState({ lightStatuses: newLightStatuses });
   };

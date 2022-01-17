@@ -29,6 +29,8 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   render() {
+    const alphaColor = this.props.lightStatus.brightness / 100;
+
     const colorPickerButton = () => {
       let classNames = 'ColorPickerButton';
       let style = null;
@@ -36,9 +38,8 @@ class SwitchAndColorPicker extends React.Component {
 
       if (this.props.lightStatus.power !== 'disconnected') {
         const { r, g, b } = this.props.lightStatus.color;
-        const a = this.props.lightStatus.brightness / 100;
         style = {
-          background: `rgba(${r},${g},${b},${a})`,
+          background: `rgba(${r},${g},${b},${alphaColor})`,
         };
       }
 
@@ -64,7 +65,7 @@ class SwitchAndColorPicker extends React.Component {
           <div className="ColorPicker">
             <div className="Cover" onClick={this.handleColorPickerClose} />
             <RgbaColorPicker
-              color={this.props.lightStatus.color}
+              color={{ ...this.props.lightStatus.color, a: alphaColor }}
               onChange={this.handleColorChange}
             />
           </div>
