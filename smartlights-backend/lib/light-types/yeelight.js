@@ -16,7 +16,7 @@ async function getIPv4(hostname) {
   }
 
   const ipv4Addresses = await dnsPromises.resolve4(hostname);
-  if (ipv4Addresses.length != 0) {
+  if (ipv4Addresses.length !== 0) {
     dnsCache[hostname] = ipv4Addresses[0];
     return dnsCache[hostname];
   } else {
