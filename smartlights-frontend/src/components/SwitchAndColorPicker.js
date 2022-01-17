@@ -8,9 +8,6 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleColorButtonClick = () => {
-    if (this.props.lightStatus.power === 'disconnected') {
-      return;
-    }
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
@@ -35,9 +32,9 @@ class SwitchAndColorPicker extends React.Component {
     const colorPickerButton = () => {
       let colorPickerButtonClasses = 'ColorPickerButton';
       let colorPickerButtonStyle = null;
-      if (this.props.lightStatus.power !== 'disconnected') {
-        colorPickerButtonClasses += ' Enabled';
+      let onClick = null;
 
+      if (this.props.lightStatus.power !== 'disconnected') {
         const { r, g, b } = this.props.lightStatus.color;
         const a = this.props.lightStatus.brightness / 100;
         colorPickerButtonStyle = {
@@ -45,11 +42,16 @@ class SwitchAndColorPicker extends React.Component {
         };
       }
 
+      if (this.props.lightStatus.power === 'on') {
+        colorPickerButtonClasses += ' Enabled';
+        onClick = this.handleColorButtonClick;
+      }
+
       return (
         <div
           className={colorPickerButtonClasses}
           style={colorPickerButtonStyle}
-          onClick={this.handleColorButtonClick}
+          onClick={onClick}
         />
       );
     }
