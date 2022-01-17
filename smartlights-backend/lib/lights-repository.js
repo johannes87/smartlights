@@ -67,8 +67,8 @@ function setLightBrightness(lightId, brightness) {
 }
 
 module.exports = {
-  getLights: getLights,
-  setLightPower: setLightPower,
-  setLightBrightness: setLightBrightness,
-  setLightColor: setLightColor,
+  getLights,
+  setLightPower,
+  setLightBrightness,
+  setLightColor,
 };
