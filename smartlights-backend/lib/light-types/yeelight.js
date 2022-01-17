@@ -1,7 +1,6 @@
 const yeelight = require('yeelight.io');
 const dnsPromises = require('dns/promises');
 
-let dnsCache = {};
 /**
  * Hack: Get IPv4 from host.
  * This function is needed because some Yeelights are not accessible via their
@@ -11,14 +10,9 @@ let dnsCache = {};
  * @param {string} hostname
  */
 async function getIPv4(hostname) {
-  if (dnsCache[hostname]) {
-    return dnsCache[hostname];
-  }
-
   const ipv4Addresses = await dnsPromises.resolve4(hostname);
   if (ipv4Addresses.length !== 0) {
-    dnsCache[hostname] = ipv4Addresses[0];
-    return dnsCache[hostname];
+    return ipv4Addresses[0];
   } else {
     throw new Error('No IPs in result');
   }
