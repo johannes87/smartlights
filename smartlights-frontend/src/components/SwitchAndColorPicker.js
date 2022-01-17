@@ -30,27 +30,27 @@ class SwitchAndColorPicker extends React.Component {
 
   render() {
     const colorPickerButton = () => {
-      let colorPickerButtonClasses = 'ColorPickerButton';
-      let colorPickerButtonStyle = null;
+      let classNames = 'ColorPickerButton';
+      let style = null;
       let onClick = null;
 
       if (this.props.lightStatus.power !== 'disconnected') {
         const { r, g, b } = this.props.lightStatus.color;
         const a = this.props.lightStatus.brightness / 100;
-        colorPickerButtonStyle = {
+        style = {
           background: `rgba(${r},${g},${b},${a})`,
         };
       }
 
       if (this.props.lightStatus.power === 'on') {
-        colorPickerButtonClasses += ' Enabled';
+        classNames += ' Enabled';
         onClick = this.handleColorButtonClick;
       }
 
       return (
         <div
-          className={colorPickerButtonClasses}
-          style={colorPickerButtonStyle}
+          className={classNames}
+          style={style}
           onClick={onClick}
         />
       );
