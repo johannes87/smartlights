@@ -1,5 +1,36 @@
 const yeelight = require('yeelight.io');
 const dnsPromises = require('dns/promises');
+const EventEmitter = require('events');
+const { Kefir } = require('kefir');
+
+/**
+ * Yeelight is rate-limited to 60 connections/second. Therefore we use Kefir to
+ * throttle the events. Otherwise, the Yeelight will be unreachable for a few
+ * minutes if the rate limits is exceeded.
+ *
+ * Because at the moment, each user-color-setting in the frontend involves two
+ * connections to the yeelight (for color and brightness), we restrict each to
+ * 30 connections/second (throttle with 2000ms).
+ *
+ * @see https://yeelight.readthedocs.io/en/latest/
+ */
+const yeelightEmitter = new EventEmitter();
+Kefir.fromEvents(yeelightEmitter, 'color')
+  .throttle(2000)
+  .observe({
+    async value({ host, color }) {
+      const ipv4 = await getIPv4(host);
+      yeelight.color(ipv4, color.r, color.g, color.b);
+    },
+  });
+Kefir.fromEvents(yeelightEmitter, 'brightness')
+  .throttle(2000)
+  .observe({
+    async value({ host, brightness }) {
+      const ipv4 = await getIPv4(host);
+      yeelight.brightness(ipv4, brightness);
+    },
+  });
 
 /**
  * Hack: Get IPv4 from host.
@@ -70,15 +101,11 @@ async function setPower(host, power) {
 }
 
 async function setColor(host, color) {
-  const ipv4 = await getIPv4(host);
-
-  yeelight.color(ipv4, color.r, color.g, color.b);
+  yeelightEmitter.emit('color', { host, color });
 }
 
 async function setBrightness(host, brightness) {
-  const ipv4 = await getIPv4(host);
-
-  yeelight.brightness(ipv4, brightness);
+  yeelightEmitter.emit('brightness', { host, brightness });
 }
 
 module.exports = {
