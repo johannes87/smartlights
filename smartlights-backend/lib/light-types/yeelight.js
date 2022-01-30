@@ -109,8 +109,8 @@ async function setBrightness(host, brightness) {
 }
 
 module.exports = {
-  getStatus: getStatus,
-  setPower: setPower,
-  setColor: setColor,
-  setBrightness: setBrightness,
+  getStatus,
+  setPower,
+  setColor,
+  setBrightness,
 };
