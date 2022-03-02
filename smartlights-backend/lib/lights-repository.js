@@ -25,8 +25,8 @@ async function getLightStatus(lightConfig) {
     lightStatus = { ...lightStatus, ...fetchedStatus };
     return lightStatus;
   } catch (error) {
-    console.log(
-      `Couldn't reach light "${lightConfig.id}" at host "${lightConfig.host}": ${error}`
+    console.debug(
+      `Couldn't get status from light "${lightConfig.id}" at host "${lightConfig.host}": ${error}`
     );
   }
   return lightStatus;
@@ -53,9 +53,10 @@ async function setLightPower(lightId, power) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
   try {
+    console.log(`Setting power of light "${lightId}" to "${power}"`);
     await lightType.setPower(lightConfig.host, power);
   } catch (error) {
-    console.log(`Couldn't set power of light "${lightId}": ${error}"`);
+    console.debug(`Couldn't set power of light "${lightId}": ${error}"`);
   }
 }
 
@@ -65,6 +66,9 @@ async function setLightPower(lightId, power) {
 async function setLightColor(lightId, color) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
+  console.log(
+    `Setting color of light "${lightId}" to ${JSON.stringify(color)}`
+  );
   await lightType.setColor(lightConfig.host, color);
 }
 
@@ -74,6 +78,7 @@ async function setLightColor(lightId, color) {
 async function setLightBrightness(lightId, brightness) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
+  console.log(`Setting brightness of light ${lightId} to ${brightness}`);
   await lightType.setBrightness(lightConfig.host, brightness);
 }
 

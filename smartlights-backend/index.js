@@ -30,4 +30,5 @@ app.put('/v1/lights/:id', (req, res) => {
   res.json(req.body);
 });
 
-app.listen(8000, () => console.log('server started'));
+const port = 8000;
+app.listen(8000, () => console.log(`Server started at port ${port}`));
