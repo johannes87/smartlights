@@ -10,7 +10,8 @@ function parseConfig() {
   return yaml.load(file);
 }
 
-const config = parseConfig();
+// not const so it can be replaced in lights-repository.test.js
+let config = parseConfig();
 
 async function getLightStatus(lightConfig) {
   let lightStatus = {
@@ -48,22 +49,32 @@ async function getLights() {
   return lightStatuses;
 }
 
-function setLightPower(lightId, power) {
+async function setLightPower(lightId, power) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
-  lightType.setPower(lightConfig.host, power);
+  try {
+    await lightType.setPower(lightConfig.host, power);
+  } catch (error) {
+    console.log(`Couldn't set power of light "${lightId}": ${error}"`);
+  }
 }
 
-function setLightColor(lightId, color) {
+/**
+ * @param {Object} color Object with keys r, g, b and values 0-255
+ */
+async function setLightColor(lightId, color) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
-  lightType.setColor(lightConfig.host, color);
+  await lightType.setColor(lightConfig.host, color);
 }
 
-function setLightBrightness(lightId, brightness) {
+/**
+ * @param {Number} brightness value in range 0-100
+ */
+async function setLightBrightness(lightId, brightness) {
   const lightConfig = config[lightId];
   const lightType = lightTypes[lightConfig.type];
-  lightType.setBrightness(lightConfig.host, brightness);
+  await lightType.setBrightness(lightConfig.host, brightness);
 }
 
 module.exports = {
