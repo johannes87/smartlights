@@ -41,6 +41,12 @@ class LightSwitches extends React.Component {
     this.setState({ lightStatuses: newLightStatuses });
   };
 
+  handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      this.fetchLights();
+    }
+  };
+
   areSomeAvailableLightsTurnedOn = () => {
     if (Object.values(this.state.lightStatuses).length === 0) {
       return false;
@@ -57,6 +63,14 @@ class LightSwitches extends React.Component {
 
   componentDidMount() {
     this.fetchLights();
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener(
+      'visibilitychange',
+      this.handleVisibilityChange
+    );
   }
 
   render() {
