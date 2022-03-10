@@ -43,6 +43,7 @@ class LightSwitches extends React.Component {
 
   handleVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
+      this.setState({ lightStatuses: {} }); // show loader again
       this.fetchLights();
     }
   };
