@@ -2,6 +2,7 @@ const yeelight = require('yeelight.io');
 const dnsPromises = require('dns/promises');
 const EventEmitter = require('events');
 const { Kefir } = require('kefir');
+const ping = require('ping');
 
 /**
  * Yeelight is rate-limited to 60 connections/second. Therefore we use Kefir to
@@ -21,7 +22,7 @@ Kefir.fromEvents(yeelightEmitter, 'color')
     async value({ host, color }) {
       try {
         const ipv4 = await getIPv4(host);
-        yeelight.color(ipv4, color.r, color.g, color.b);
+        yeelight.color(ipv4, color.r, color.g, color.b)
       } catch (error) {
         console.debug(`Couldn't set color of light at host ${host}: ${error}`);
       }
@@ -91,6 +92,11 @@ async function getStatus(host) {
     bulb.on('error', () => {
       reject(`Could not connect to ${ipv4}`);
     });
+
+    // Hack: bulb needs to be accessed before becoming available 
+    // if not accessed for a while.
+    await ping.promise.probe(host);
+
     bulb.connect();
     const connectTimeout = 500;
     setTimeout(() => {
