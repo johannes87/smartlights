@@ -22,7 +22,7 @@ Kefir.fromEvents(yeelightEmitter, 'color')
     async value({ host, color }) {
       try {
         const ipv4 = await getIPv4(host);
-        yeelight.color(ipv4, color.r, color.g, color.b)
+        yeelight.color(ipv4, color.r, color.g, color.b);
       } catch (error) {
         console.debug(`Couldn't set color of light at host ${host}: ${error}`);
       }
