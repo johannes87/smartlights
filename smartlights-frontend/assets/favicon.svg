@@ -1,35 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator for iOS (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" xmlns:vectornator="http://vectornator.io" width="100%" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" height="100%" xmlns="http://www.w3.org/2000/svg">
-<metadata>
-<vectornator:setting value="true" key="WDRulersVisible"/>
-<vectornator:setting key="VNDimensionsVisible" value="true"/>
-<vectornator:setting value="true" key="VNSnapToGuides"/>
-<vectornator:setting key="VNPencilOnly" value="false"/>
-<vectornator:setting value="false" key="UndoHistoryDisabled"/>
-<vectornator:setting value="false" key="WDDisplayWhiteBackground"/>
-<vectornator:setting value="false" key="WDOutlineMode"/>
-<vectornator:setting key="WDUnits" value="Pixels"/>
-<vectornator:setting value="true" key="WDGuidesVisible"/>
-<vectornator:setting value="false" key="WDSnapToEdges"/>
-<vectornator:setting key="IsTimeLapseWatermarkDisabled" value="false"/>
-<vectornator:setting value="false" key="WDSnapToPoints"/>
-<vectornator:setting value="false" key="WDSnapToGrid"/>
-<vectornator:setting value="false" key="WDCMYKEnabledKey"/>
-<vectornator:setting key="WDIsolateActiveLayer" value="false"/>
-<vectornator:setting value="false" key="WDDynamicGuides"/>
-</metadata>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 512 512" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
-<linearGradient y1="0.757907" gradientUnits="userSpaceOnUse" x1="258.635" gradientTransform="matrix(1 0 0 1 0 0)" x2="257.555" y2="510.859" id="LinearGradient">
+<path d="M140 50L372 50C421.706 50 462 90.2944 462 140L462 372C462 421.706 421.706 462 372 462L140 462C90.2944 462 50 421.706 50 372L50 140C50 90.2944 90.2944 50 140 50Z" id="Fill"/>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient" x1="258.635" x2="257.555" y1="0.757907" y2="510.859">
 <stop offset="0.631456" stop-color="#d3dfec"/>
-<stop stop-color="#ffffff" offset="0.929833"/>
+<stop offset="0.929833" stop-color="#ffffff"/>
 </linearGradient>
 </defs>
-<g id="background" vectornator:layerName="background">
-<path d="M0+0L512+0L512+512L0+512L0+0Z" opacity="1" fill="url(#LinearGradient)"/>
+<clipPath id="ArtboardFrame">
+<rect height="512" width="512" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="background" vectornator:layerName="background">
+<use fill="#d3dfec" fill-opacity="0.93" fill-rule="nonzero" opacity="1" stroke="#d7a521" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0" stroke-width="2" xlink:href="#Fill"/>
+<clipPath id="ClipPath">
+<use xlink:href="#Fill"/>
+</clipPath>
+<g clip-path="url(#ClipPath)">
+<path d="M0 0L512 0L512 512L0 512L0 0Z" fill="url(#LinearGradient)" fill-rule="nonzero" opacity="1" stroke="#d7a521" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
 </g>
-<g vectornator:layerName="lightbulb" id="lightbulb">
-<path opacity="1" fill="#000000" d="M274.75+466.875L237.25+466.875L218.5+448.125L218.5+438.75L293.5+438.75L293.5+448.125L274.75+466.875Z"/>
-<path stroke="#000000" stroke-linejoin="round" opacity="1" stroke-linecap="round" fill="#84908a" d="M293.5+438.75L218.5+438.75C208.141+438.75+199.75+430.359+199.75+420L199.75+363.75L312.25+363.75L312.25+420C312.25+430.359+303.859+438.75+293.5+438.75Z" stroke-width="2"/>
-<path stroke="#000000" fill="#d7a521" stroke-width="2" stroke-linecap="round" d="M309.241+363.75C360.803+331.922+406+255.487+406+195C406+112.162+338.847+45+256+45C173.153+45+106+112.162+106+195C106+255.488+151.197+331.922+202.759+363.75" opacity="1" stroke-linejoin="round"/>
+</g>
+<g id="lightbulb" vectornator:layerName="lightbulb">
+<g opacity="1">
+<path d="M268.638 409.362L243.362 409.362L230.725 393.48L230.725 385.539L281.275 385.539L281.275 393.48L268.638 409.362Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M281.275 385.539L230.725 385.539C223.743 385.539 218.087 378.432 218.087 369.657L218.087 322.011L293.913 322.011L293.913 369.657C293.913 378.432 288.257 385.539 281.275 385.539Z" fill="#84908a" fill-rule="nonzero" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+<path d="M291.884 322.011C326.637 300.106 357.1 247.501 357.1 205.872C357.1 148.861 311.839 102.638 256 102.638C200.161 102.638 154.9 148.861 154.9 205.872C154.9 247.501 185.363 300.106 220.116 322.011" fill="#d7a521" fill-rule="nonzero" opacity="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+</g>
 </g>
 </svg>
