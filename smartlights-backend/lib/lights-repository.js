@@ -1,17 +1,11 @@
-const fs = require('fs');
-const yaml = require('js-yaml');
+const config = require('./config');
 
 const lightTypes = {
   yeelight: require('./light-types/yeelight'),
 };
 
-function parseConfig() {
-  const file = fs.readFileSync('./config.yaml', 'utf8');
-  return yaml.load(file);
-}
-
 // not const so it can be replaced in lights-repository.test.js
-let config = parseConfig();
+let lightsConfig = config.parseConfig().lights;
 
 async function getLightStatus(lightConfig) {
   let lightStatus = {
@@ -34,12 +28,12 @@ async function getLightStatus(lightConfig) {
 
 async function getLights() {
   const lightStatusesArray = await Promise.all(
-    Object.entries(config).map(([lightId, lightConfig]) => {
+    Object.entries(lightsConfig).map(([lightId, lightConfig]) => {
       return getLightStatus({ id: lightId, ...lightConfig });
     })
   );
 
-  const lightIds = Object.keys(config);
+  const lightIds = Object.keys(lightsConfig);
   let lightStatuses = {};
   lightStatusesArray.forEach((lightStatus, idx) => {
     const lightId = lightIds[idx];
@@ -50,7 +44,7 @@ async function getLights() {
 }
 
 async function setLightPower(lightId, power) {
-  const lightConfig = config[lightId];
+  const lightConfig = lightsConfig[lightId];
   const lightType = lightTypes[lightConfig.type];
   try {
     console.log(`Setting power of light "${lightId}" to "${power}"`);
@@ -64,7 +58,7 @@ async function setLightPower(lightId, power) {
  * @param {Object} color Object with keys r, g, b and values 0-255
  */
 async function setLightColor(lightId, color) {
-  const lightConfig = config[lightId];
+  const lightConfig = lightsConfig[lightId];
   const lightType = lightTypes[lightConfig.type];
   console.log(
     `Setting color of light "${lightId}" to ${JSON.stringify(color)}`
@@ -76,7 +70,7 @@ async function setLightColor(lightId, color) {
  * @param {Number} brightness value in range 0-100
  */
 async function setLightBrightness(lightId, brightness) {
-  const lightConfig = config[lightId];
+  const lightConfig = lightsConfig[lightId];
   const lightType = lightTypes[lightConfig.type];
   console.log(`Setting brightness of light ${lightId} to ${brightness}`);
   await lightType.setBrightness(lightConfig.host, brightness);

@@ -1,12 +1,21 @@
-livingroom_window:
-  name: Livingroom Window
-  host: 'yeelink-light-color2-miap91ae'
-  type: yeelight
-livingroom_kitchen:
-  name: Livingroom Kitchen
-  host: 'yeelink-light-color2-miapb81f'
-  type: yeelight
-bedroom:
-  name: Bedroom
-  host: 'yeelink-light-color2-miapa322'
-  type: yeelight
+lights:
+  livingroom_window:
+    name: Livingroom Window
+    host: yeelink-light-color2-miap91ae
+    type: yeelight
+  livingroom_kitchen:
+    name: Livingroom Kitchen
+    host: yeelink-light-color2-miapb81f
+    type: yeelight
+  bedroom:
+    name: Bedroom
+    host: yeelink-light-color2-miapa322
+    type: yeelight
+presets:
+  Blah:
+    livinroom_window:
+      color:
+        r: 100
+        g: 0
+        b: 0
+      brightness: 100

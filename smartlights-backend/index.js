@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const lightsRepository = require('./lib/lights-repository');
+const presets = require('./lib/presets');
 
 const app = express();
 
@@ -27,6 +28,24 @@ app.put('/v1/lights/:id', (req, res) => {
     lightsRepository.setLightBrightness(req.params.id, req.body.brightness);
   }
 
+  res.json(req.body);
+});
+
+app.get('/v1/presets', (req, res) => {
+  res.json(presets.getPresets());
+});
+
+app.post('/v1/presets', (req, res) => {
+  if (req.body.presetName && req.body.presetData) {
+    presets.addPreset(req.body.presetName, req.body.presetData);
+  }
+  res.json(req.body);
+});
+
+app.delete('/v1/presets', (req, res) => {
+  if (req.body.presetName) {
+    presets.removePreset(req.body.presetName);
+  }
   res.json(req.body);
 });
 
