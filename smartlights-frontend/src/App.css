@@ -65,3 +65,20 @@
     transform: rotate(360deg);
   }
 }
+
+.Presets .PresetListEntry {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.Presets button {
+  margin-left: 1em;
+}
+
+.Presets .AddNewPreset {
+  margin-top: 1em;
+}
+
+.Presets .AddNewPreset input {
+  width: 15em;
+}

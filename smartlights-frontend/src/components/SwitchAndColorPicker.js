@@ -1,10 +1,17 @@
 import React from 'react';
 import { RgbaColorPicker } from 'react-colorful';
 import { FormControlLabel, Switch } from '@mui/material';
+import { fetchLights, setLights } from '../redux/slices/lightsSlice';
+import { connect } from 'react-redux';
+import { setLightPower, setLightColorAndBrightness } from '../API';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
+  };
+
+  getLight = () => {
+    return this.props.lights[this.props.lightId];
   };
 
   handleColorButtonClick = () => {
@@ -15,35 +22,52 @@ class SwitchAndColorPicker extends React.Component {
     this.setState({ displayColorPicker: false });
   };
 
-  handleColorChange = (color) => {
-    this.props.onColorChange &&
-      this.props.onColorChange(this.props.lightId, color);
+  handleColorChange = async (color) => {
+    const lightColor = { r: color.r, g: color.g, b: color.b };
+    const lightBrightness = color.a * 100;
+    await setLightColorAndBrightness(
+      this.props.lightId,
+      lightColor,
+      lightBrightness
+    );
+    this.props.setLights({
+      ...this.props.lights,
+      [this.props.lightId]: {
+        ...this.props.lights[this.props.lightId],
+        color: lightColor,
+        brightness: lightBrightness,
+      },
+    });
   };
 
-  handleSwitchChange = () => {
-    this.props.onPowerChange &&
-      this.props.onPowerChange(
-        this.props.lightId,
-        this.props.lightStatus.power === 'on' ? 'off' : 'on'
-      );
+  handleSwitchChange = async () => {
+    const newPowerStatus = this.getLight().power === 'on' ? 'off' : 'on';
+    await setLightPower(this.props.lightId, newPowerStatus);
+    this.props.setLights({
+      ...this.props.lights,
+      [this.props.lightId]: {
+        ...this.props.lights[this.props.lightId],
+        power: newPowerStatus,
+      },
+    });
   };
 
   render() {
-    const alphaColor = this.props.lightStatus.brightness / 100;
+    const alphaColor = this.getLight().brightness / 100;
 
     const colorPickerButton = () => {
       let classNames = 'ColorPickerButton';
       let style = null;
       let onClick = null;
 
-      if (this.props.lightStatus.power !== 'disconnected') {
-        const { r, g, b } = this.props.lightStatus.color;
+      if (this.getLight().power !== 'disconnected') {
+        const { r, g, b } = this.getLight().color;
         style = {
           background: `rgba(${r},${g},${b},${alphaColor})`,
         };
       }
 
-      if (this.props.lightStatus.power === 'on') {
+      if (this.getLight().power === 'on') {
         classNames += ' Enabled';
         onClick = this.handleColorButtonClick;
       }
@@ -53,8 +77,8 @@ class SwitchAndColorPicker extends React.Component {
 
     const lightSwitch = (
       <Switch
-        disabled={this.props.lightStatus.power === 'disconnected'}
-        checked={this.props.lightStatus.power === 'on'}
+        disabled={this.getLight().power === 'disconnected'}
+        checked={this.getLight().power === 'on'}
         onChange={this.handleSwitchChange}
       />
     );
@@ -65,7 +89,7 @@ class SwitchAndColorPicker extends React.Component {
           <div className="ColorPicker">
             <div className="Cover" onClick={this.handleColorPickerClose} />
             <RgbaColorPicker
-              color={{ ...this.props.lightStatus.color, a: alphaColor }}
+              color={{ ...this.getLight().color, a: alphaColor }}
               onChange={this.handleColorChange}
             />
           </div>
@@ -78,14 +102,24 @@ class SwitchAndColorPicker extends React.Component {
     return (
       <div className="SwitchAndColorPicker">
         {colorPickerButton()}
-        <FormControlLabel
-          control={lightSwitch}
-          label={this.props.lightStatus.name}
-        />
+        <FormControlLabel control={lightSwitch} label={this.getLight().name} />
         {colorPicker()}
       </div>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    lights: state.lights.lights,
+  };
+};
 
-export default SwitchAndColorPicker;
+const mapDispatchToProps = {
+  setLights,
+  fetchLights,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SwitchAndColorPicker);
