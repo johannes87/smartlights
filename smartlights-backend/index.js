@@ -29,7 +29,6 @@ app.put('/v1/lights/:id', (req, res) => {
   if (req.body.brightness) {
     lightsRepository.setLightBrightness(req.params.id, req.body.brightness);
   }
-
   res.json(req.body);
 });
 
