@@ -2,12 +2,14 @@ import React from 'react';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
 import * as API from '../API';
 import SwitchAndColorPicker from './SwitchAndColorPicker';
-import { connect } from 'react-redux';
-import { fetchLights, setLights } from '../redux/slices/lightsSlice';
 
 class LightSwitches extends React.Component {
+  state = {
+    lightStatuses: {},
+  };
+
   handleAllLightsSwitchChange = () => {
-    const newLightStatuses = { ...this.props.lights };
+    const newLightStatuses = { ...this.state.lightStatuses };
     const newPowerStatus = this.areSomeAvailableLightsTurnedOn() ? 'off' : 'on';
 
     Object.keys(newLightStatuses).forEach((lightId) => {
@@ -16,25 +18,52 @@ class LightSwitches extends React.Component {
       }
       API.setLightPower(lightId, newPowerStatus);
     });
-    this.props.setLights(newLightStatuses);
+
+    this.setState({ lightStatuses: newLightStatuses });
+  };
+
+  handleLightPowerChange = (lightId, power) => {
+    let newLightStatuses = { ...this.state.lightStatuses };
+    newLightStatuses[lightId].power = power;
+    API.setLightPower(lightId, power);
+    this.setState({ lightStatuses: newLightStatuses });
+  };
+
+  handleLightColorChange = (lightId, color) => {
+    let newLightStatuses = { ...this.state.lightStatuses };
+    newLightStatuses[lightId].color = { r: color.r, g: color.g, b: color.b };
+    newLightStatuses[lightId].brightness = color.a * 100;
+    API.setLightColorAndBrightness(
+      lightId,
+      newLightStatuses[lightId].color,
+      newLightStatuses[lightId].brightness
+    );
+    this.setState({ lightStatuses: newLightStatuses });
   };
 
   handleVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
-      this.props.setLights({}); // show loader again
-      this.props.fetchLights();
+      this.setState({ lightStatuses: {} }); // show loader again
+      this.fetchLights();
     }
   };
 
   areSomeAvailableLightsTurnedOn = () => {
-    if (Object.values(this.props.lights).length === 0) {
+    if (Object.values(this.state.lightStatuses).length === 0) {
       return false;
     }
-    return Object.values(this.props.lights).some((l) => l.power === 'on');
+    return Object.values(this.state.lightStatuses).some(
+      (l) => l.power === 'on'
+    );
   };
 
+  async fetchLights() {
+    const lightStatuses = await API.getLights();
+    this.setState({ lightStatuses });
+  }
+
   componentDidMount() {
-    this.props.fetchLights();
+    this.fetchLights();
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
   }
 
@@ -46,7 +75,7 @@ class LightSwitches extends React.Component {
   }
 
   render() {
-    const isLoaded = Object.values(this.props.lights).length > 0;
+    const isLoaded = Object.values(this.state.lightStatuses).length > 0;
     const loader = (
       <div className="LoaderContainer">
         <div className="Loader" />
@@ -63,9 +92,17 @@ class LightSwitches extends React.Component {
           }
           label="All lights"
         />
-        {Object.entries(this.props.lights).map(([lightId, lightStatus]) => (
-          <SwitchAndColorPicker key={lightId} lightId={lightId} />
-        ))}
+        {Object.entries(this.state.lightStatuses).map(
+          ([lightId, lightStatus]) => (
+            <SwitchAndColorPicker
+              key={lightId}
+              lightId={lightId}
+              lightStatus={lightStatus}
+              onPowerChange={this.handleLightPowerChange}
+              onColorChange={this.handleLightColorChange}
+            />
+          )
+        )}
       </>
     );
 
@@ -78,15 +115,4 @@ class LightSwitches extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    lights: state.lights.lights,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchLights,
-  setLights,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LightSwitches);
+export default LightSwitches;
