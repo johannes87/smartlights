@@ -8,14 +8,17 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// API usage:
-// GET /v1/lights: return all lights, including brightness, power state, and color for each light.
-
+/**
+ * Get status for all lights (color, brightness, power state).
+ */
 app.get('/v1/lights', async (_, res) => {
   const lights = await lightsRepository.getLights();
   res.json(lights);
 });
 
+/**
+ * Set status of a specific light.
+ */
 app.put('/v1/lights/:id', (req, res) => {
   if (req.body.power) {
     lightsRepository.setLightPower(req.params.id, req.body.power);
