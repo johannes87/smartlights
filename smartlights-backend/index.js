@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 // API usage:
 // GET /v1/lights: return all lights, including brightness, power state, and color for each light.
 
-app.get('/v1/lights', async (req, res) => {
+app.get('/v1/lights', async (_, res) => {
   const lights = await lightsRepository.getLights();
   res.json(lights);
 });
