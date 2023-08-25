@@ -1,8 +1,27 @@
 const yeelight = require('yeelight.io');
 const dnsPromises = require('dns/promises');
 const EventEmitter = require('events');
-const { Kefir } = require('kefir');
+const { fromEvent, asyncScheduler } = require('rxjs');
+const { throttleTime } = require('rxjs/operators');
 const ping = require('ping');
+
+async function setColor(host, color) {
+  try {
+    const ipv4 = await getIPv4(host);
+    yeelight.color(ipv4, color.r, color.g, color.b);
+  } catch (error) {
+    console.debug(`Couldn't set color of light at host ${host}: ${error}`);
+  }
+}
+
+async function setBrightness(host, brightness) {
+  try {
+    const ipv4 = await getIPv4(host);
+    yeelight.brightness(ipv4, brightness);
+  } catch (error) {
+    console.debug(`Couldn't set brightness of light at host ${host}: ${error}`);
+  }
+}
 
 /**
  * Yeelight is rate-limited to 60 connections/second. Therefore we use Kefir to
@@ -16,31 +35,15 @@ const ping = require('ping');
  * @see https://yeelight.readthedocs.io/en/latest/
  */
 const yeelightEmitter = new EventEmitter();
-Kefir.fromEvents(yeelightEmitter, 'color')
-  .throttle(2000)
-  .observe({
-    async value({ host, color }) {
-      try {
-        const ipv4 = await getIPv4(host);
-        yeelight.color(ipv4, color.r, color.g, color.b);
-      } catch (error) {
-        console.debug(`Couldn't set color of light at host ${host}: ${error}`);
-      }
-    },
+fromEvent(yeelightEmitter, 'color')
+  .pipe(throttleTime(2000, asyncScheduler, { trailing: true }))
+  .subscribe(async ({ host, color }) => {
+    await setColor(host, color);
   });
-Kefir.fromEvents(yeelightEmitter, 'brightness')
-  .throttle(2000)
-  .observe({
-    async value({ host, brightness }) {
-      try {
-        const ipv4 = await getIPv4(host);
-        yeelight.brightness(ipv4, brightness);
-      } catch (error) {
-        console.debug(
-          `Couldn't set brightness of light at host ${host}: ${error}`
-        );
-      }
-    },
+fromEvent(yeelightEmitter, 'brightness')
+  .pipe(throttleTime(2000, asyncScheduler, { trailing: true }))
+  .subscribe(async ({ host, brightness }) => {
+    await setBrightness(host, brightness);
   });
 
 /**
@@ -85,7 +88,7 @@ async function getStatus(host) {
 
       resolve({
         power: status.power,
-        brightness: status.bright,
+        brightness: Number(status.bright),
         color,
       });
     });
@@ -93,7 +96,7 @@ async function getStatus(host) {
       reject(`Could not connect to ${ipv4}`);
     });
 
-    // Hack: bulb needs to be accessed before becoming available 
+    // Hack: bulb needs to be accessed before becoming available
     // if not accessed for a while.
     await ping.promise.probe(host);
 
@@ -116,17 +119,27 @@ async function setPower(host, power) {
   }
 }
 
-async function setColor(host, color) {
+async function setColorThrottled(host, color) {
   yeelightEmitter.emit('color', { host, color });
 }
 
-async function setBrightness(host, brightness) {
+async function setColorImmediately(host, color) {
+  await setColor(host, color);
+}
+
+async function setBrightnessThrottled(host, brightness) {
   yeelightEmitter.emit('brightness', { host, brightness });
+}
+
+async function setBrightnessImmediately(host, brightness) {
+  await setBrightness(host, brightness);
 }
 
 module.exports = {
   getStatus,
   setPower,
-  setColor,
-  setBrightness,
+  setColorThrottled,
+  setColorImmediately,
+  setBrightnessThrottled,
+  setBrightnessImmediately,
 };
