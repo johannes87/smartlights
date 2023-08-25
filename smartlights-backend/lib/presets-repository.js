@@ -75,6 +75,7 @@ async function loadPreset(presetName, lightsRepository) {
   if (!requestedPreset) {
     return { error: errorMessages.presetNotFound(presetName) };
   }
+  console.log(`Loading preset: "${presetName}"`);
   const lightPowerOperations = [];
   const lightColorOperations = [];
   const lightBrightnessOperations = [];
