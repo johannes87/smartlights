@@ -41,7 +41,7 @@ app.put('/v1/lights/:lightId', async (req, res) => {
  */
 app.put('/v1/lights', async (req, res) => {
   const { presetName } = req.body;
-  const result = presetsRepository.loadPreset(presetName, lightsRepository);
+  const result = await presetsRepository.loadPreset(presetName, lightsRepository);
   if (!result.error) {
     res.json(req.body);
   } else {
