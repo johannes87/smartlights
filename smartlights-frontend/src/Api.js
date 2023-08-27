@@ -90,3 +90,13 @@ export async function deletePreset(presetName) {
 export async function loadPreset(presetName) {
   return sendRequest('PUT', '/v1/lights', { presetName });
 }
+
+/**
+ * @param {string} presetName
+ * @param {string} newName
+ */
+export async function renamePreset(presetName, newName) {
+  return sendRequest('PUT', `/v1/presets/${encodeURIComponent(presetName)}`, {
+    newName,
+  });
+}

@@ -11,25 +11,36 @@ import {
 import List from '@mui/material/List';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
-import { createPreset, deletePreset, getPresets, loadPreset } from '../Api';
+import {
+  createPreset,
+  deletePreset,
+  getPresets,
+  loadPreset,
+  renamePreset,
+} from '../Api';
 import ConfirmPresetDeletionDialog from './ConfirmPresetDeletionDialog';
+import RenamePresetDialog from './RenamePresetDialog';
 
 export default function Presets() {
   const [presets, setPresets] = useState(undefined);
-  const [newPresetName, setNewPresetName] = useState('');
+  const [newNameForCreatePreset, setNewNameForCreatePreset] = useState('');
+  const [createPresetLoading, setCreatePresetLoading] = useState(false);
   const [confirmDeleteDialogPresetName, setConfirmDeleteDialogPresetName] =
     useState(null);
+  const [renameDialogPresetName, setRenameDialogPresetName] = useState(null);
 
   async function fetchPresets() {
     setPresets(await getPresets());
   }
 
   const createNewPresetClick = useCallback(async () => {
-    const result = await createPreset(newPresetName);
+    setCreatePresetLoading(true);
+    const result = await createPreset(newNameForCreatePreset.trim());
     // TODO: error handling
-    setNewPresetName('');
+    setNewNameForCreatePreset('');
     await fetchPresets();
-  }, [newPresetName]);
+    setCreatePresetLoading(false);
+  }, [newNameForCreatePreset]);
 
   const deletePresetClick = useCallback(async (presetName) => {
     setConfirmDeleteDialogPresetName(presetName);
@@ -49,6 +60,17 @@ export default function Presets() {
     setConfirmDeleteDialogPresetName(null);
   }, [confirmDeleteDialogPresetName]);
 
+  const onRenamePresetNewNameChosen = useCallback(
+    async (presetName, newPresetName) => {
+      const result = await renamePreset(presetName, newPresetName);
+      // TODO: error handling
+      // TODO: succes noti
+      await fetchPresets();
+      setRenameDialogPresetName(null);
+    },
+    []
+  );
+
   useEffect(() => {
     fetchPresets();
   }, []);
@@ -60,17 +82,27 @@ export default function Presets() {
         onClose={() => setConfirmDeleteDialogPresetName(null)}
         onDeleteConfirmed={onDeletePresetConfirmed}
       />
+      <RenamePresetDialog
+        presetName={renameDialogPresetName}
+        onNewNameChosen={onRenamePresetNewNameChosen}
+        onClose={() => setRenameDialogPresetName(null)}
+      />
       {presets && (
         <>
           <div className="new-preset">
             <TextField
               id="new-preset-name"
-              label="Name your new preset"
+              label="New preset name"
               variant="filled"
-              value={newPresetName}
-              onChange={(e) => setNewPresetName(e.target.value)}
+              value={newNameForCreatePreset}
+              onChange={(e) => setNewNameForCreatePreset(e.target.value)}
+              disabled={createPresetLoading}
             />
-            <Button variant="contained" onClick={createNewPresetClick}>
+            <Button
+              variant="contained"
+              onClick={createNewPresetClick}
+              disabled={createPresetLoading}
+            >
               Create it!
             </Button>
           </div>
@@ -84,7 +116,13 @@ export default function Presets() {
                   className="preset"
                   secondaryAction={
                     <div className="secondary-actions">
-                      <IconButton edge="end" aria-label="edit">
+                      <IconButton
+                        edge="end"
+                        aria-label="edit"
+                        onClick={() =>
+                          setRenameDialogPresetName(preset.presetName)
+                        }
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton

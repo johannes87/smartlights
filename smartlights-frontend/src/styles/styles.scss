@@ -26,9 +26,10 @@ body {
         margin-bottom: 10px;
       }
     }
-
-    @import './light_switches_component';
-    @import './switch_and_color_picker_component';
-    @import './presets_component';
   }
 }
+
+@import './components/light_switches';
+@import './components/switch_and_color_picker';
+@import './components/presets';
+@import './components/rename_preset_dialog';

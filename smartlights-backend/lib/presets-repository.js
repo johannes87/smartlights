@@ -18,13 +18,16 @@ function getConfig() {
   return presetsConfig;
 }
 
+/**
+ * @param {Object} presetsConfig
+ */
 function writeConfig(presetsConfig) {
   fs.writeFileSync(presetsConfigFileName, yaml.dump(presetsConfig));
 }
 
 /**
  * Get clean data from current light state, so that only relevant info is stored.
- * @param {*} lights the lights data from lightsRepository
+ * @param {Object} lights the lights data from lightsRepository
  * @returns cleaned lights data for storing in presets config
  */
 function cleanLightsData(lights) {
@@ -39,6 +42,10 @@ function cleanLightsData(lights) {
   return cleanedLights;
 }
 
+/**
+ * @param {string} presetName
+ * @param {Object} lights
+ */
 function savePreset(presetName, lights) {
   const cleanedLights = cleanLightsData(lights);
   const presetsConfig = getConfig();
@@ -56,16 +63,26 @@ function getPresets() {
   return getConfig();
 }
 
+/**
+ * @param {string} presetName
+ */
 function deletePreset(presetName) {
   const presetsConfig = getConfig();
   delete presetsConfig[presetName];
   writeConfig(presetsConfig);
 }
 
+/**
+ * @param {string} presetName
+ * @param {string} newName
+ */
 function renamePreset(presetName, newName) {
   const presetsConfig = getConfig();
   if (!newName) {
     return { error: newNameNotProvided() };
+  }
+  if (presetsConfig[newName]) {
+    return { error: presetAlreadyExists(newName) };
   }
   if (!presetsConfig[presetName]) {
     return { error: presetNotFound(presetName) };
@@ -77,6 +94,10 @@ function renamePreset(presetName, newName) {
   return { error: false };
 }
 
+/**
+ * @param {string} presetName
+ * @param {Object} lightsRepository
+ */
 async function loadPreset(presetName, lightsRepository) {
   const presets = getPresets();
   const requestedPreset = presets[presetName];
