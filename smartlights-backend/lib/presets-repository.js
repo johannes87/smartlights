@@ -5,6 +5,7 @@ const {
   presetAlreadyExists,
   newNameNotProvided,
   presetNotFound,
+  presetNameMustNotBeEmpty,
 } = require('./error-messages');
 const { DateTime } = require('luxon');
 
@@ -49,6 +50,9 @@ function cleanLightsData(lights) {
 function savePreset(presetName, lights) {
   const cleanedLights = cleanLightsData(lights);
   const presetsConfig = getConfig();
+  if (presetName.trim() === '') {
+    return { error: presetNameMustNotBeEmpty() };
+  }
   if (presetsConfig[presetName]) {
     return { error: presetAlreadyExists(presetName) };
   }

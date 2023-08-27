@@ -10,4 +10,13 @@ function presetAlreadyExists(presetName) {
   return `The preset "${presetName}" already exists.`;
 }
 
-module.exports = { presetNotFound, newNameNotProvided, presetAlreadyExists };
+function presetNameMustNotBeEmpty() {
+  return `A new preset needs a name.`;
+}
+
+module.exports = {
+  presetNotFound,
+  newNameNotProvided,
+  presetAlreadyExists,
+  presetNameMustNotBeEmpty,
+};
