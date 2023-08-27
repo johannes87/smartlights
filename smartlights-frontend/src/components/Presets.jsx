@@ -12,10 +12,13 @@ import List from '@mui/material/List';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
 import { createPreset, deletePreset, getPresets, loadPreset } from '../Api';
+import ConfirmPresetDeletionDialog from './ConfirmPresetDeletionDialog';
 
 export default function Presets() {
   const [presets, setPresets] = useState(undefined);
   const [newPresetName, setNewPresetName] = useState('');
+  const [confirmDeleteDialogPresetName, setConfirmDeleteDialogPresetName] =
+    useState(null);
 
   async function fetchPresets() {
     setPresets(await getPresets());
@@ -29,10 +32,7 @@ export default function Presets() {
   }, [newPresetName]);
 
   const deletePresetClick = useCallback(async (presetName) => {
-    const result = await deletePreset(presetName);
-    // TODO: confirmation dialog
-    // TODO: error handling
-    await fetchPresets();
+    setConfirmDeleteDialogPresetName(presetName);
   }, []);
 
   const loadPresetClick = useCallback(async (presetName) => {
@@ -41,12 +41,25 @@ export default function Presets() {
     // TODO: success notification
   }, []);
 
+  const onDeletePresetConfirmed = useCallback(async () => {
+    const result = await deletePreset(confirmDeleteDialogPresetName);
+    // TODO: error handling
+    // TODO: success notification
+    await fetchPresets();
+    setConfirmDeleteDialogPresetName(null);
+  }, [confirmDeleteDialogPresetName]);
+
   useEffect(() => {
     fetchPresets();
   }, []);
 
   return (
     <div className="presets-component">
+      <ConfirmPresetDeletionDialog
+        presetName={confirmDeleteDialogPresetName}
+        onClose={() => setConfirmDeleteDialogPresetName(null)}
+        onDeleteConfirmed={onDeletePresetConfirmed}
+      />
       {presets && (
         <>
           <div className="new-preset">
