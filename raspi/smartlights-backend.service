@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=smartlights
 WorkingDirectory=/home/smartlights/git/smartlights-backend
-ExecStart=/home/smartlights/node/bin/node index.js
+ExecStart=/home/smartlights/node/bin/node server.js
 
 [Install]
 WantedBy=multi-user.target
