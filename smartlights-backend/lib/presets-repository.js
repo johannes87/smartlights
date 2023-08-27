@@ -33,7 +33,7 @@ function writeConfig(presetsConfig) {
 function cleanLightsData(lights) {
   const cleanedLights = {};
   for (const [lightId, lightConfig] of Object.entries(lights)) {
-    if (lightConfig.power === 'disconnected') {
+    if (lightConfig.power === 'disconnected' || lightConfig.power === 'off') {
       continue;
     }
     const { brightness, color } = lightConfig;
