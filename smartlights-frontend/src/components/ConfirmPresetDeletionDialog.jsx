@@ -15,7 +15,7 @@ export default function ConfirmPresetDeletionDialog({
 }) {
   return (
     <Dialog
-      open={presetName}
+      open={!!presetName}
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
