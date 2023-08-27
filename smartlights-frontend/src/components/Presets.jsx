@@ -45,7 +45,7 @@ export default function Presets() {
         <>
           <div className="new-preset">
             <TextField
-              id="filled-basic"
+              id="new-preset-name"
               label="Name your new preset"
               variant="filled"
               value={newPresetName}
