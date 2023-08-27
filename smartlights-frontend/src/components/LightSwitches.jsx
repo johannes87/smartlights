@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormGroup, FormControlLabel, Switch } from '@mui/material';
-import * as API from '../API';
+import * as API from '../Api';
 import SwitchAndColorPicker from './SwitchAndColorPicker';
 
 class LightSwitches extends React.Component {
@@ -107,7 +107,7 @@ class LightSwitches extends React.Component {
     );
 
     return (
-      <FormGroup className="LightSwitches">
+      <FormGroup className="light-switches-component">
         {!isLoaded && loader}
         {isLoaded && lightSwitches}
       </FormGroup>

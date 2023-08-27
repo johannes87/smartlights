@@ -6,4 +6,8 @@ function newNameNotProvided() {
   return 'No new name provided';
 }
 
-module.exports = { presetNotFound, newNameNotProvided };
+function presetAlreadyExists(presetName) {
+  return `The preset "${presetName}" already exists.`;
+}
+
+module.exports = { presetNotFound, newNameNotProvided, presetAlreadyExists };

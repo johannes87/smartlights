@@ -1,8 +1,12 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
-const luxon = require('luxon');
 const { setTimeout } = require('timers/promises');
-const errorMessages = require('./error-messages');
+const {
+  presetAlreadyExists,
+  newNameNotProvided,
+  presetNotFound,
+} = require('./error-messages');
+const { DateTime } = require('luxon');
 
 const presetsConfigFileName = './config_presets.yml';
 
@@ -38,10 +42,14 @@ function cleanLightsData(lights) {
 function savePreset(presetName, lights) {
   const cleanedLights = cleanLightsData(lights);
   const presetsConfig = getConfig();
+  if (presetsConfig[presetName]) {
+    return { error: presetAlreadyExists(presetName) };
+  }
   presetsConfig[presetName] = {};
   presetsConfig[presetName].lights = cleanedLights;
-  presetsConfig[presetName].createDate = luxon.DateTime.now().toISO();
+  presetsConfig[presetName].createDate = DateTime.now().toISO();
   writeConfig(presetsConfig);
+  return { error: false };
 }
 
 function getPresets() {
@@ -57,10 +65,10 @@ function deletePreset(presetName) {
 function renamePreset(presetName, newName) {
   const presetsConfig = getConfig();
   if (!newName) {
-    return { error: errorMessages.newNameNotProvided() };
+    return { error: newNameNotProvided() };
   }
   if (!presetsConfig[presetName]) {
-    return { error: errorMessages.presetNotFound(presetName) };
+    return { error: presetNotFound(presetName) };
   }
   presetsConfig[newName] = presetsConfig[presetName];
   delete presetsConfig[presetName];
@@ -73,7 +81,7 @@ async function loadPreset(presetName, lightsRepository) {
   const presets = getPresets();
   const requestedPreset = presets[presetName];
   if (!requestedPreset) {
-    return { error: errorMessages.presetNotFound(presetName) };
+    return { error: presetNotFound(presetName) };
   }
   console.log(`Loading preset: "${presetName}"`);
   const lightPowerOperations = [];

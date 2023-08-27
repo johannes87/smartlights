@@ -50,13 +50,17 @@ app.put('/v1/lights', async (req, res) => {
 });
 
 /**
- * Create a preset from the current status of all lights.
+ * Create a new preset (from the current status of all lights).
  */
 app.post('/v1/presets', async (req, res) => {
   const { presetName } = req.body;
   const lights = await lightsRepository.getLights();
-  presetsRepository.savePreset(presetName, lights);
-  res.json(req.body);
+  const result = presetsRepository.savePreset(presetName, lights);
+  if (!result.error) {
+    res.json(req.body);
+  } else {
+    res.status(400).send(result);
+  }
 });
 
 /**
@@ -78,15 +82,15 @@ app.put('/v1/presets/:presetName', (req, res) => {
   if (!result.error) {
     res.json(req.body);
   } else {
-    res.json(result);
+    res.status(400).send(result);
   }
 });
 
 /**
  * Delete a preset.
  */
-app.delete('/v1/presets', (req, res) => {
-  const { presetName } = req.body;
+app.delete('/v1/presets/:presetName', (req, res) => {
+  const { presetName } = req.params;
   presetsRepository.deletePreset(presetName);
   res.json(req.body);
 });

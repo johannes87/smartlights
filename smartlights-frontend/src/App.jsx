@@ -1,12 +1,22 @@
 import React from 'react';
-import './App.css';
 import LightSwitches from './components/LightSwitches';
+import Presets from './components/Presets';
 
 function App() {
   return (
     <div className="App">
-      <h1>Light switches</h1>
-      <LightSwitches />
+      <div className="section">
+        <div className="title">Light switches</div>
+        <div className="content">
+          <LightSwitches />
+        </div>
+      </div>
+      <div className="section">
+        <div className="title">Presets</div>
+        <div className="content">
+          <Presets />
+        </div>
+      </div>
     </div>
   );
 }

@@ -76,7 +76,7 @@ class SwitchAndColorPicker extends React.Component {
     };
 
     return (
-      <div className="SwitchAndColorPicker">
+      <div className="switch-and-color-picker-component">
         {colorPickerButton()}
         <FormControlLabel
           control={lightSwitch}

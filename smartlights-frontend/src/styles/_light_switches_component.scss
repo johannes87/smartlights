@@ -1,0 +1,24 @@
+.light-switches-component {
+  .LoaderContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .Loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 30px;
+    height: 30px;
+    animation: loader-spin 2s linear infinite;
+  }
+
+  @keyframes loader-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

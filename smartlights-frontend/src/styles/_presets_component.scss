@@ -1,0 +1,25 @@
+.presets-component {
+  .new-preset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      margin-left: 10px;
+    }
+  }
+  .preset {
+    // Make space for additional IconButton's
+    padding-right: 110px;
+
+    .secondary-actions {
+      display: flex;
+      flex-direction: row;
+
+      button {
+        margin-left: 4px;
+        margin-right: 4px;
+      }
+    }
+  }
+}

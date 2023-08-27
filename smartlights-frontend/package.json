@@ -5,14 +5,17 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@mui/material": "^5.2.5",
+    "@mui/icons-material": "^5.14.6",
+    "@mui/material": "^5.14.6",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "luxon": "^3.4.2",
     "react": "^17.0.2",
     "react-colorful": "^5.5.1",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "sass": "^1.66.1",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
