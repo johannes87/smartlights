@@ -1,4 +1,11 @@
 .light-switches-component {
+  margin: 30px;
+
+  .all-lights-toggle {
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
   .LoaderContainer {
     display: flex;
     justify-content: center;

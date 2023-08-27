@@ -91,15 +91,17 @@ class LightSwitches extends React.Component {
     );
     const lightSwitches = (
       <>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={this.areSomeAvailableLightsTurnedOn()}
-              onChange={this.handleAllLightsSwitchChange}
-            />
-          }
-          label="All lights"
-        />
+        <div className="all-lights-toggle">
+          <FormControlLabel
+            control={
+              <Switch
+                checked={this.areSomeAvailableLightsTurnedOn()}
+                onChange={this.handleAllLightsSwitchChange}
+              />
+            }
+            label="All lights"
+          />
+        </div>
         {Object.entries(this.state.lightStatuses).map(
           ([lightId, lightStatus]) => (
             <SwitchAndColorPicker
