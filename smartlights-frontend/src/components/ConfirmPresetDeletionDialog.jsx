@@ -17,12 +17,14 @@ export default function ConfirmPresetDeletionDialog({
     <Dialog
       open={!!presetName}
       onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby="confirm-preset-deletion-dialog-title"
+      aria-describedby="confirm-preset-deletion-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
+      <DialogTitle id="confirm-preset-deletion-dialog-title">
+        Are you sure?
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        <DialogContentText id="confirm-preset-deletion-dialog-description">
           <p>
             Please confirm if you are reeeaaallly sure that you want to delete
             the preset with the following name: <strong>{presetName}</strong>
