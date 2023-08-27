@@ -11,6 +11,8 @@ import {
 import List from '@mui/material/List';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { handleApiError, showSuccess } from 'redux/slices/globalSnackBarSlice';
 import {
   createPreset,
   deletePreset,
@@ -29,6 +31,8 @@ export default function Presets() {
     useState(null);
   const [renameDialogPresetName, setRenameDialogPresetName] = useState(null);
 
+  const dispatch = useDispatch();
+
   async function fetchPresets() {
     setPresets(await getPresets());
   }
@@ -36,39 +40,58 @@ export default function Presets() {
   const createNewPresetClick = useCallback(async () => {
     setCreatePresetLoading(true);
     const result = await createPreset(newNameForCreatePreset.trim());
-    // TODO: error handling
+
+    if (!result.error) {
+      dispatch(
+        showSuccess(`New preset created: ${newNameForCreatePreset.trim()}`)
+      );
+    } else {
+      dispatch(handleApiError(result));
+    }
     setNewNameForCreatePreset('');
     await fetchPresets();
     setCreatePresetLoading(false);
-  }, [newNameForCreatePreset]);
+  }, [dispatch, newNameForCreatePreset]);
 
   const deletePresetClick = useCallback(async (presetName) => {
     setConfirmDeleteDialogPresetName(presetName);
   }, []);
 
-  const loadPresetClick = useCallback(async (presetName) => {
-    const result = await loadPreset(presetName);
-    // TODO: error handling
-    // TODO: success notification
-  }, []);
+  const loadPresetClick = useCallback(
+    async (presetName) => {
+      const result = await loadPreset(presetName);
+      if (!result.error) {
+        dispatch(showSuccess(`Preset loaded: ${presetName}`));
+      } else {
+        dispatch(handleApiError(result));
+      }
+    },
+    [dispatch]
+  );
 
   const onDeletePresetConfirmed = useCallback(async () => {
     const result = await deletePreset(confirmDeleteDialogPresetName);
-    // TODO: error handling
-    // TODO: success notification
+    if (!result.error) {
+      dispatch(showSuccess(`Preset deleted: ${confirmDeleteDialogPresetName}`));
+    } else {
+      dispatch(handleApiError(result));
+    }
     await fetchPresets();
     setConfirmDeleteDialogPresetName(null);
-  }, [confirmDeleteDialogPresetName]);
+  }, [dispatch, confirmDeleteDialogPresetName]);
 
   const onRenamePresetNewNameChosen = useCallback(
     async (presetName, newPresetName) => {
       const result = await renamePreset(presetName, newPresetName);
-      // TODO: error handling
-      // TODO: succes noti
+      if (!result.error) {
+        dispatch(showSuccess(`Renamed to: ${newPresetName}`));
+      } else {
+        dispatch(handleApiError(result));
+      }
       await fetchPresets();
       setRenameDialogPresetName(null);
     },
-    []
+    [dispatch]
   );
 
   useEffect(() => {

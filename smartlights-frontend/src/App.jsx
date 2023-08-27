@@ -1,6 +1,7 @@
 import React from 'react';
 import LightSwitches from './components/LightSwitches';
 import Presets from './components/Presets';
+import GlobalSnackBar from 'components/GlobalSnackBar';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Presets />
         </div>
       </div>
+      <GlobalSnackBar />
     </div>
   );
 }
