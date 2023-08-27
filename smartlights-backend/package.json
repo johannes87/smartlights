@@ -2,7 +2,7 @@
   "name": "smartlights-backend",
   "version": "1.0.0",
   "description": "Backend for controlling smart lights",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon",
     "test": "jest"
