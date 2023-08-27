@@ -62,35 +62,41 @@ export default function Presets() {
             </Button>
           </div>
           <List>
-            {presets.map((preset) => (
-              <ListItem
-                key={preset.presetName}
-                className="preset"
-                secondaryAction={
-                  <div className="secondary-actions">
-                    <IconButton edge="end" aria-label="edit">
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => deletePresetClick(preset.presetName)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                }
-              >
-                <ListItemButton onClick={() => loadPresetClick(preset.presetName)}>
-                  <ListItemText
-                    primary={preset.presetName}
-                    secondary={DateTime.fromISO(preset.createDate).toFormat(
-                      'dd.LL.yyyy HH:mm:ss'
-                    )}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {presets.map(
+              (
+                /** @type {{ presetName: string; createDate: string; }} */ preset
+              ) => (
+                <ListItem
+                  key={preset.presetName}
+                  className="preset"
+                  secondaryAction={
+                    <div className="secondary-actions">
+                      <IconButton edge="end" aria-label="edit">
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => deletePresetClick(preset.presetName)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  }
+                >
+                  <ListItemButton
+                    onClick={() => loadPresetClick(preset.presetName)}
+                  >
+                    <ListItemText
+                      primary={preset.presetName}
+                      secondary={DateTime.fromISO(preset.createDate).toFormat(
+                        'dd.LL.yyyy HH:mm:ss'
+                      )}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            )}
           </List>
         </>
       )}
