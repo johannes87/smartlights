@@ -1,7 +1,9 @@
+import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 import React from 'react';
-import { FormGroup, FormControlLabel, Switch } from '@mui/material';
+import { connect } from 'react-redux';
 import * as API from '../Api';
 import SwitchAndColorPicker from './SwitchAndColorPicker';
+import { triggerReload } from 'redux/slices/lightsSlice';
 
 class LightSwitches extends React.Component {
   state = {
@@ -74,6 +76,12 @@ class LightSwitches extends React.Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.triggerReloadHack !== this.props.triggerReloadHack) {
+      this.fetchLights();
+    }
+  }
+
   render() {
     const isLoaded = Object.values(this.state.lightStatuses).length > 0;
     const loader = (
@@ -115,4 +123,10 @@ class LightSwitches extends React.Component {
   }
 }
 
-export default LightSwitches;
+const mapStateToProps = (state) => ({
+  triggerReloadHack: state.lights.triggerReloadHack,
+});
+
+const mapDispatchToProps = { triggerReload };
+
+export default connect(mapStateToProps, mapDispatchToProps)(LightSwitches);

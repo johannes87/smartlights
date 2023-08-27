@@ -22,6 +22,7 @@ import {
 } from '../Api';
 import ConfirmPresetDeletionDialog from './ConfirmPresetDeletionDialog';
 import RenamePresetDialog from './RenamePresetDialog';
+import { triggerReload } from 'redux/slices/lightsSlice';
 
 export default function Presets() {
   const [presets, setPresets] = useState(undefined);
@@ -60,6 +61,7 @@ export default function Presets() {
   const loadPresetClick = useCallback(
     async (presetName) => {
       const result = await loadPreset(presetName);
+      dispatch(triggerReload());
       if (!result.error) {
         dispatch(showSuccess(`Preset loaded: ${presetName}`));
       } else {
