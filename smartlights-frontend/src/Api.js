@@ -62,9 +62,9 @@ export async function getPresets() {
       const dateTimeB = DateTime.fromISO(b.createDate);
 
       if (dateTimeA < dateTimeB) {
-        return -1;
-      } else if (dateTimeA > dateTimeB) {
         return 1;
+      } else if (dateTimeA > dateTimeB) {
+        return -1;
       }
       return 0;
     });
