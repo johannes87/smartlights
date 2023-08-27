@@ -16,16 +16,14 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleColorChange = (color) => {
-    this.props.onColorChange &&
-      this.props.onColorChange(this.props.lightId, color);
+    this.props?.onColorChange(this.props.lightId, color);
   };
 
   handleSwitchChange = () => {
-    this.props.onPowerChange &&
-      this.props.onPowerChange(
-        this.props.lightId,
-        this.props.lightStatus.power === 'on' ? 'off' : 'on'
-      );
+    this.props?.onPowerChange(
+      this.props.lightId,
+      this.props.lightStatus.power === 'on' ? 'off' : 'on'
+    );
   };
 
   render() {
