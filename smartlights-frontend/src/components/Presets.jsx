@@ -11,13 +11,13 @@ import {
 import List from '@mui/material/List';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
-import { createPreset, deletePreset, getPresets } from '../Api';
+import { createPreset, deletePreset, getPresets, loadPreset } from '../Api';
 
 export default function Presets() {
   const [presets, setPresets] = useState(undefined);
   const [newPresetName, setNewPresetName] = useState('');
 
-  async function loadPresets() {
+  async function fetchPresets() {
     setPresets(await getPresets());
   }
 
@@ -25,18 +25,24 @@ export default function Presets() {
     const result = await createPreset(newPresetName);
     // TODO: error handling
     setNewPresetName('');
-    await loadPresets();
+    await fetchPresets();
   }, [newPresetName]);
 
   const deletePresetClick = useCallback(async (presetName) => {
     const result = await deletePreset(presetName);
     // TODO: confirmation dialog
     // TODO: error handling
-    await loadPresets();
+    await fetchPresets();
+  }, []);
+
+  const loadPresetClick = useCallback(async (presetName) => {
+    const result = await loadPreset(presetName);
+    // TODO: error handling
+    // TODO: success notification
   }, []);
 
   useEffect(() => {
-    loadPresets();
+    fetchPresets();
   }, []);
 
   return (
@@ -75,7 +81,7 @@ export default function Presets() {
                   </div>
                 }
               >
-                <ListItemButton>
+                <ListItemButton onClick={() => loadPresetClick(preset.presetName)}>
                   <ListItemText
                     primary={preset.presetName}
                     secondary={DateTime.fromISO(preset.createDate).toFormat(

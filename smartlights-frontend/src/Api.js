@@ -83,3 +83,10 @@ export async function createPreset(presetName) {
 export async function deletePreset(presetName) {
   return sendRequest('DELETE', `/v1/presets/${encodeURIComponent(presetName)}`);
 }
+
+/**
+ * @param {string} presetName
+ */
+export async function loadPreset(presetName) {
+  return sendRequest('PUT', '/v1/lights', { presetName });
+}
