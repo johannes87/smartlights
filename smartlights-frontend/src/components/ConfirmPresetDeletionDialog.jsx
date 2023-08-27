@@ -37,7 +37,7 @@ export default function ConfirmPresetDeletionDialog({
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" onClick={onClose} autoFocus>
-          No! I don't want to change anything!
+          Don't change anything
         </Button>
         <Button variant="contained" onClick={onDeleteConfirmed}>
           Delete Preset
