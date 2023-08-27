@@ -37,7 +37,7 @@ app.put('/v1/lights/:lightId', async (req, res) => {
 });
 
 /**
- * Load a preset with a given preset name.
+ * Load a preset.
  */
 app.put('/v1/lights', async (req, res) => {
   const { presetName } = req.body;
