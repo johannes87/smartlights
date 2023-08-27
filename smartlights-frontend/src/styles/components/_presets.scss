@@ -1,12 +1,23 @@
 .presets-component {
+  .new-preset-description {
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
   .new-preset {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
     button {
-      margin-left: 10px;
+      margin-top: 10px;
     }
+  }
+
+  .preset-list-description {
+    margin-top: 50px;
+    margin-left: 15px;
   }
 
   .preset-list .preset {

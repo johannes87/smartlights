@@ -122,6 +122,7 @@ export default function Presets() {
               value={newNameForCreatePreset}
               onChange={(e) => setNewNameForCreatePreset(e.target.value)}
               disabled={createPresetLoading}
+              helperText="Save colors to never forget them!"
             />
             <Button
               variant="contained"
@@ -131,6 +132,12 @@ export default function Presets() {
               Create it!
             </Button>
           </div>
+          {presets.length > 0 && (
+            <div className="preset-list-description">
+              Change colors to a previously saved color configuration by
+              clicking an item in the list:
+            </div>
+          )}
           <List className="preset-list">
             {presets.map(
               (
