@@ -131,7 +131,7 @@ export default function Presets() {
               Create it!
             </Button>
           </div>
-          <List>
+          <List className="preset-list">
             {presets.map(
               (
                 /** @type {{ presetName: string; createDate: string; }} */ preset
