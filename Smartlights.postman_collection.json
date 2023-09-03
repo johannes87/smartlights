@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "87f8938b-e019-4e08-911d-d95d4a0db58f",
+		"name": "Smartlights",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17862191"
+	},
+	"item": [
+		{
+			"name": "Get lights",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/v1/lights",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"lights"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get presets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/v1/presets",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"presets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load a preset",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"presetName\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/lights",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"lights"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Preset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"presetName\": \"neu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/presets",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"presets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rename a preset",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"newName\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/presets/blah",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"presets",
+						"blah"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
