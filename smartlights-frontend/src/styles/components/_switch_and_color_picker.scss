@@ -1,4 +1,6 @@
 .switch-and-color-picker-component {
+  display: flex;
+  align-items: center;
   text-align: left;
   margin-top: 4px;
   margin-bottom: 4px;
@@ -18,13 +20,15 @@
 
   .ColorPickerButton {
     display: inline-flex;
-    border: 1px solid black;
-    border-radius: 8px;
     width: 20px;
     height: 20px;
-    margin-right: 0.8em;
+    flex-shrink: 0;
+    flex-grow: 0;
     position: relative;
-    top: 7px;
+    top: 2px;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-right: 0.8em;
     opacity: 0.3;
   }
 
