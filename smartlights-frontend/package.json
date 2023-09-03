@@ -6,20 +6,20 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@mui/icons-material": "^5.14.6",
-    "@mui/material": "^5.14.6",
+    "@mui/icons-material": "^5.14.7",
+    "@mui/material": "^5.14.7",
     "@reduxjs/toolkit": "^1.9.5",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "luxon": "^3.4.2",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-colorful": "^5.5.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "sass": "^1.66.1",
-    "web-vitals": "^2.1.2"
+    "web-vitals": "^3.4.0"
   },
   "scripts": {
     "dev": "BROWSER=none REACT_APP_BACKEND_URL=http://localhost:8000 react-scripts start",
@@ -46,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "prettier": "2.5.1"
+    "prettier": "^3.0.3"
   }
 }
