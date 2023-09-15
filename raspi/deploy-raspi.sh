@@ -34,6 +34,6 @@ echo "Building frontend..."
 rsync -av --del smartlights-frontend/build/ $DESTINATION:web
 
 # backend
-server_command "cd git && git pull"
-server_command "cd git/smartlights-backend && npm ci --only=production"
+server_command "cd smartlights && git pull"
+server_command "cd smartlights/smartlights-backend && npm ci --only=production"
 server_command_root "systemctl restart smartlights-backend"
