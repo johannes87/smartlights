@@ -119,7 +119,6 @@ class LightSwitches extends React.Component {
   }
 
   render() {
-    console.log('aaaaaaaaaaaaaaa', this.state.lightStatuses);
     const isLoaded = Object.values(this.state.lightStatuses).length > 0;
     const loader = (
       <div className="LoaderContainer">
