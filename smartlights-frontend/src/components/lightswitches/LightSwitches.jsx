@@ -11,42 +11,70 @@ class LightSwitches extends React.Component {
   };
 
   handleAllLightsSwitchChange = () => {
-    const newLightStatuses = { ...this.state.lightStatuses };
     const newPowerStatus = this.areSomeAvailableLightsTurnedOn() ? 'off' : 'on';
-
-    Object.keys(newLightStatuses).forEach((lightId) => {
-      if (newLightStatuses[lightId].power !== 'disconnected') {
-        newLightStatuses[lightId].power = newPowerStatus;
+    const updateState = (prevState) => {
+      const lightStatuses = JSON.parse(JSON.stringify(prevState));
+      Object.keys(lightStatuses).forEach((lightId) => {
+        if (lightStatuses[lightId].power !== 'disconnected') {
+          lightStatuses[lightId].power = newPowerStatus;
+        }
+      });
+      return { lightStatuses };
+    };
+    const updateLights = async () => {
+      for (const lightId of Object.keys(this.state.lightStatuses)) {
+        await API.setLightPower(lightId, newPowerStatus);
       }
-      API.setLightPower(lightId, newPowerStatus);
+    };
+
+    this.setState(updateState, updateLights);
+  };
+
+  handleLightPowerChange = async (lightId, power) => {
+    await API.setLightPower(lightId, power);
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        lightStatuses: {
+          ...prevState.lightStatuses,
+          [lightId]: {
+            ...prevState.lightStatuses[lightId],
+            power,
+          },
+        },
+      };
     });
-
-    this.setState({ lightStatuses: newLightStatuses });
   };
 
-  handleLightPowerChange = (lightId, power) => {
-    let newLightStatuses = { ...this.state.lightStatuses };
-    newLightStatuses[lightId].power = power;
-    API.setLightPower(lightId, power);
-    this.setState({ lightStatuses: newLightStatuses });
-  };
-
-  handleLightColorChange = (lightId, color) => {
-    let newLightStatuses = { ...this.state.lightStatuses };
-    newLightStatuses[lightId].color = { r: color.r, g: color.g, b: color.b };
-    API.setLightColor(
-      lightId,
-      newLightStatuses[lightId].color,
-    );
-    this.setState({ lightStatuses: newLightStatuses });
+  handleLightColorChange = async (lightId, color) => {
+    await API.setLightColor(lightId, color);
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        lightStatuses: {
+          ...prevState.lightStatuses,
+          [lightId]: {
+            ...prevState.lightStatuses[lightId],
+            color,
+          },
+        },
+      };
+    });
   };
 
   handleLightBrightnessChange = async (lightId, brightness) => {
     await API.setLightBrightness(lightId, brightness);
     this.setState((prevState) => {
-      const { lightStatuses } = prevState;
-      lightStatuses[lightId].brightness = brightness;
-      return lightStatuses;
+      return {
+        ...prevState,
+        lightStatuses: {
+          ...prevState.lightStatuses,
+          [lightId]: {
+            ...prevState.lightStatuses[lightId],
+            brightness,
+          },
+        },
+      };
     });
   };
 
