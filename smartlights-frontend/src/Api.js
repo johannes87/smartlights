@@ -37,16 +37,12 @@ export function setLightPower(lightId, power) {
   return sendRequest('PUT', `/v1/lights/${lightId}`, { power });
 }
 
-/**
- * @param {string} lightId
- * @param {Object} color
- * @param {Number} brightness
- */
-export function setLightColorAndBrightness(lightId, color, brightness) {
-  return sendRequest('PUT', `/v1/lights/${lightId}`, {
-    color,
-    brightness,
-  });
+export function setLightColor(lightId, color) {
+  return sendRequest('PUT', `/v1/lights/${lightId}`, { color });
+}
+
+export function setLightBrightness(lightId, brightness) {
+  return sendRequest('PUT', `/v1/lights/${lightId}`, { brightness });
 }
 
 export async function getPresets() {

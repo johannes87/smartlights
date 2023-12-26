@@ -1,10 +1,13 @@
 import React from 'react';
-import { RgbaColorPicker } from 'react-colorful';
+import { RgbColorPicker } from 'react-colorful';
 import { FormControlLabel, Switch } from '@mui/material';
+import BrightnessControlDialog from './BrightnessControlDialog';
+import BrightnessIndicator from './BrightnessIndicator';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
+    displayBrightnessControl: false,
   };
 
   handleColorButtonClick = () => {
@@ -28,9 +31,13 @@ class SwitchAndColorPicker extends React.Component {
     );
   };
 
-  render() {
-    const alphaColor = this.props.lightStatus.brightness / 100;
+  handleBrightnessIndicatorClick = () => {
+    this.setState((prevState) => ({
+      displayBrightnessControl: !prevState.displayBrightnessControl,
+    }));
+  };
 
+  render() {
     const colorPickerButton = () => {
       let classNames = 'ColorPickerButton';
       let style = null;
@@ -39,7 +46,7 @@ class SwitchAndColorPicker extends React.Component {
       if (this.props.lightStatus.power !== 'disconnected') {
         const { r, g, b } = this.props.lightStatus.color;
         style = {
-          background: `rgba(${r},${g},${b},${alphaColor})`,
+          background: `rgb(${r},${g},${b})`,
         };
       }
 
@@ -63,8 +70,8 @@ class SwitchAndColorPicker extends React.Component {
       this.state.displayColorPicker && (
         <div className="ColorPicker">
           <div className="Cover" onClick={this.handleColorPickerClose} />
-          <RgbaColorPicker
-            color={{ ...this.props.lightStatus.color, a: alphaColor }}
+          <RgbColorPicker
+            color={{ ...this.props.lightStatus.color }}
             onChange={this.handleColorChange}
           />
         </div>
@@ -73,11 +80,24 @@ class SwitchAndColorPicker extends React.Component {
     return (
       <div className="switch-and-color-picker-component">
         {colorPickerButton()}
+        <BrightnessIndicator
+          onIndicatorClick={this.handleBrightnessIndicatorClick}
+          currentBrightness={this.props.lightStatus.brightness}
+        />
         <FormControlLabel
           control={lightSwitch}
           label={this.props.lightStatus.name}
         />
         {colorPicker()}
+        <BrightnessControlDialog
+          open={this.state.displayBrightnessControl}
+          onClose={() => this.setState({ displayBrightnessControl: false })}
+          lightId={this.props.lightId}
+          currentBrightness={this.props.lightStatus.brightness}
+          onBrightnessChange={(lightId, newValue) =>
+            this.props.onBrightnessChange(lightId, newValue)
+          }
+        />
       </div>
     );
   }
