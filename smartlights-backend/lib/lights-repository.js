@@ -73,7 +73,7 @@ async function setLightPower(lightId, power) {
     console.log(`Setting power of light "${lightId}" to "${power}"`);
     await lightTypeLibrary.setPower(host, power);
   } catch (error) {
-    console.error(`Couldn't set power of light "${lightId}": ${error}"`);
+    console.error(`Couldn't set power of light "${lightId}": ${error}`);
   }
 }
 
