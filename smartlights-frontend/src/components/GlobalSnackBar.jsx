@@ -6,7 +6,7 @@ import {
   selectMessage,
   selectOpen,
   selectSeverity,
-} from 'redux/slices/globalSnackBarSlice';
+} from '../redux/slices/globalSnackBarSlice';
 
 export default function GlobalSnackBar() {
   const open = useSelector(selectOpen);

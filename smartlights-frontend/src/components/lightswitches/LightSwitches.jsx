@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as API from '../../Api';
 import LightSwitchWithControls from './LightSwitchWithControls';
-import { triggerReload } from 'redux/slices/lightsSlice';
+import { triggerReload } from '../../redux/slices/lightsSlice';
 
 class LightSwitches extends React.Component {
   state = {

@@ -12,7 +12,7 @@ import List from '@mui/material/List';
 import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { handleApiError, showSuccess } from 'redux/slices/globalSnackBarSlice';
+import { handleApiError, showSuccess } from '../../redux/slices/globalSnackBarSlice';
 import {
   createPreset,
   deletePreset,
@@ -22,7 +22,7 @@ import {
 } from '../../Api';
 import ConfirmPresetDeletionDialog from './ConfirmPresetDeletionDialog';
 import RenamePresetDialog from './RenamePresetDialog';
-import { triggerReload } from 'redux/slices/lightsSlice';
+import { triggerReload } from '../../redux/slices/lightsSlice';
 
 export default function Presets() {
   const [presets, setPresets] = useState(undefined);
