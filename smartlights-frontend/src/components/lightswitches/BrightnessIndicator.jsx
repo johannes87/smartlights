@@ -2,8 +2,8 @@ export default function BrightnessIndicator({
   lightStatus,
   onIndicatorClick,
 }) {
-  const currentBrightness = lightStatus.brightness;
-  const isEnabled = lightStatus.power !== 'disconnected';
+  const isEnabled = lightStatus.power === 'on';
+  const currentBrightness = isEnabled ? lightStatus.brightness : 0;
   const fillColor = 'rgba(185, 185, 185, 0.52)';
   const filledBackground = {
     background: `linear-gradient(to right, ${fillColor} ${currentBrightness}%, transparent ${currentBrightness}%)`,
