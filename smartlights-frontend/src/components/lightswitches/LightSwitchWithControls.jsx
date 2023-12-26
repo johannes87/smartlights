@@ -5,7 +5,7 @@ import BrightnessIndicator from './BrightnessIndicator';
 import LightSwitch from './LightSwitch';
 import ColorIndicator from './ColorIndicator';
 
-class SwitchAndColorPicker extends React.Component {
+class LightSwitchWithControls extends React.Component {
   state = {
     displayColorPicker: false,
     displayBrightnessControl: false,
@@ -79,4 +79,4 @@ class SwitchAndColorPicker extends React.Component {
   }
 }
 
-export default SwitchAndColorPicker;
+export default LightSwitchWithControls;

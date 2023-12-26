@@ -2,7 +2,7 @@ import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as API from '../../Api';
-import SwitchAndColorPicker from './SwitchAndColorPicker';
+import LightSwitchWithControls from './LightSwitchWithControls';
 import { triggerReload } from 'redux/slices/lightsSlice';
 
 class LightSwitches extends React.Component {
@@ -111,7 +111,7 @@ class LightSwitches extends React.Component {
         </div>
         {Object.entries(this.state.lightStatuses).map(
           ([lightId, lightStatus]) => (
-            <SwitchAndColorPicker
+            <LightSwitchWithControls
               key={lightId}
               lightId={lightId}
               lightStatus={lightStatus}
