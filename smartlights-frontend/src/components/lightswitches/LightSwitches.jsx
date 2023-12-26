@@ -13,7 +13,8 @@ class LightSwitches extends React.Component {
   handleAllLightsSwitchChange = () => {
     const newPowerStatus = this.areSomeAvailableLightsTurnedOn() ? 'off' : 'on';
     const updateState = (prevState) => {
-      const lightStatuses = JSON.parse(JSON.stringify(prevState));
+      const { lightStatuses } = JSON.parse(JSON.stringify(prevState));
+
       Object.keys(lightStatuses).forEach((lightId) => {
         if (lightStatuses[lightId].power !== 'disconnected') {
           lightStatuses[lightId].power = newPowerStatus;
@@ -118,6 +119,7 @@ class LightSwitches extends React.Component {
   }
 
   render() {
+    console.log('aaaaaaaaaaaaaaa', this.state.lightStatuses);
     const isLoaded = Object.values(this.state.lightStatuses).length > 0;
     const loader = (
       <div className="LoaderContainer">
