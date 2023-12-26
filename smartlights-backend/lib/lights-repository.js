@@ -14,24 +14,36 @@ function getConfig() {
 let config = getConfig();
 
 function getLightTypeLibrary(lightId) {
+  if (!lightId) {
+    throw new Error('lightId has invalid value');
+  }
   const lightConfig = config[lightId];
-  return lightTypes[lightConfig.type];
+  if (!lightConfig) {
+    throw new Error(`light config for lightId "${lightId}" not found`);
+  }
+
+  const lightTypeLibrary = lightTypes[lightConfig.type];
+  if (!lightTypeLibrary) {
+    throw new Error(`light library for type "${lightConfig.type}" not found`);
+  }
+
+  return lightTypeLibrary;
 }
 
 async function getLightStatus(lightId, lightConfig) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  let lightStatus = {
-    name: lightConfig.name,
-    power: 'disconnected',
-  };
-
   try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    let lightStatus = {
+      name: lightConfig.name,
+      power: 'disconnected',
+    };
+
     const fetchedStatus = await lightTypeLibrary.getStatus(lightConfig.host);
     lightStatus = { ...lightStatus, ...fetchedStatus };
     return lightStatus;
   } catch (error) {
-    console.debug(
-      `Couldn't get status from light "${lightId}" at host "${lightConfig.host}": ${error}`
+    console.error(
+      `Couldn't get status from light "${lightId}" at host "${lightConfig.host}": ${error}`,
     );
   }
   return lightStatus;
@@ -41,7 +53,7 @@ async function getLights() {
   const lightStatusesArray = await Promise.all(
     Object.entries(config).map(([lightId, lightConfig]) => {
       return getLightStatus(lightId, lightConfig);
-    })
+    }),
   );
 
   const lightIds = Object.keys(config);
@@ -55,13 +67,13 @@ async function getLights() {
 }
 
 async function setLightPower(lightId, power) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  const { host } = config[lightId];
   try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    const { host } = config[lightId];
     console.log(`Setting power of light "${lightId}" to "${power}"`);
     await lightTypeLibrary.setPower(host, power);
   } catch (error) {
-    console.debug(`Couldn't set power of light "${lightId}": ${error}"`);
+    console.error(`Couldn't set power of light "${lightId}": ${error}"`);
   }
 }
 
@@ -69,54 +81,72 @@ async function setLightPower(lightId, power) {
  * @param {Object} color Object with keys r, g, b and values 0-255
  */
 async function setLightColorThrottled(lightId, color) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  const { host } = config[lightId];
+  try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    const { host } = config[lightId];
 
-  console.log(
-    `Throttled: Setting color of light "${lightId}" to ${JSON.stringify(color)}`
-  );
-  await lightTypeLibrary.setColorThrottled(host, color);
+    console.log(
+      `Throttled: Setting color of light "${lightId}" to ${JSON.stringify(
+        color,
+      )}`,
+    );
+    await lightTypeLibrary.setColorThrottled(host, color);
+  } catch (error) {
+    console.error(`Couldn't set color (throttled): ${error}`);
+  }
 }
 
 /**
  * @param {Object} color Object with keys r, g, b and values 0-255
  */
 async function setLightColorImmediately(lightId, color) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  const { host } = config[lightId];
+  try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    const { host } = config[lightId];
 
-  console.log(
-    `Immediately: Setting color of light "${lightId}" to ${JSON.stringify(
-      color
-    )}`
-  );
-  await lightTypeLibrary.setColorImmediately(host, color);
+    console.log(
+      `Immediately: Setting color of light "${lightId}" to ${JSON.stringify(
+        color,
+      )}`,
+    );
+    await lightTypeLibrary.setColorImmediately(host, color);
+  } catch (error) {
+    console.error(`Couldn't set color (immediately): ${error}`);
+  }
 }
 
 /**
  * @param {Number} brightness value in range 0-100
  */
 async function setLightBrightnessThrottled(lightId, brightness) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  const { host } = config[lightId];
+  try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    const { host } = config[lightId];
 
-  console.log(
-    `Throttled: Setting brightness of light ${lightId} to ${brightness}`
-  );
-  await lightTypeLibrary.setBrightnessThrottled(host, brightness);
+    console.log(
+      `Throttled: Setting brightness of light ${lightId} to ${brightness}`,
+    );
+    await lightTypeLibrary.setBrightnessThrottled(host, brightness);
+  } catch (error) {
+    console.error(`Couldn't set brightness (throttled): ${error}`);
+  }
 }
 
 /**
  * @param {Number} brightness value in range 0-100
  */
 async function setLightBrightnessImmediately(lightId, brightness) {
-  const lightTypeLibrary = getLightTypeLibrary(lightId);
-  const { host } = config[lightId];
+  try {
+    const lightTypeLibrary = getLightTypeLibrary(lightId);
+    const { host } = config[lightId];
 
-  console.log(
-    `Immediately: Setting brightness of light ${lightId} to ${brightness}`
-  );
-  await lightTypeLibrary.setBrightnessImmediately(host, brightness);
+    console.log(
+      `Immediately: Setting brightness of light ${lightId} to ${brightness}`,
+    );
+    await lightTypeLibrary.setBrightnessImmediately(host, brightness);
+  } catch (error) {
+    console.error(`Couldn't set brightness (immediately): ${error}`);
+  }
 }
 
 module.exports = {
