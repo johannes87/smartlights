@@ -8,7 +8,9 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   handleColorButtonClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker });
+    this.setState((prevState) => ({
+      displayColorPicker: !prevState.displayColorPicker,
+    }));
   };
 
   handleColorPickerClose = () => {
@@ -22,7 +24,7 @@ class SwitchAndColorPicker extends React.Component {
   handleSwitchChange = () => {
     this.props?.onPowerChange(
       this.props.lightId,
-      this.props.lightStatus.power === 'on' ? 'off' : 'on'
+      this.props.lightStatus.power === 'on' ? 'off' : 'on',
     );
   };
 
