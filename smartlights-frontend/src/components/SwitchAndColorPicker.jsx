@@ -59,19 +59,16 @@ class SwitchAndColorPicker extends React.Component {
       />
     );
 
-    const colorPicker = () => {
-      return (
-        this.state.displayColorPicker && (
-          <div className="ColorPicker">
-            <div className="Cover" onClick={this.handleColorPickerClose} />
-            <RgbaColorPicker
-              color={{ ...this.props.lightStatus.color, a: alphaColor }}
-              onChange={this.handleColorChange}
-            />
-          </div>
-        )
+    const colorPicker = () =>
+      this.state.displayColorPicker && (
+        <div className="ColorPicker">
+          <div className="Cover" onClick={this.handleColorPickerClose} />
+          <RgbaColorPicker
+            color={{ ...this.props.lightStatus.color, a: alphaColor }}
+            onChange={this.handleColorChange}
+          />
+        </div>
       );
-    };
 
     return (
       <div className="switch-and-color-picker-component">
