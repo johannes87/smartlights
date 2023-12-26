@@ -1,7 +1,7 @@
 import { FormControlLabel, FormGroup, Switch } from '@mui/material';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as API from '../Api';
+import * as API from '../../Api';
 import SwitchAndColorPicker from './SwitchAndColorPicker';
 import { triggerReload } from 'redux/slices/lightsSlice';
 

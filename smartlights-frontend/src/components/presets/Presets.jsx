@@ -19,7 +19,7 @@ import {
   getPresets,
   loadPreset,
   renamePreset,
-} from '../Api';
+} from '../../Api';
 import ConfirmPresetDeletionDialog from './ConfirmPresetDeletionDialog';
 import RenamePresetDialog from './RenamePresetDialog';
 import { triggerReload } from 'redux/slices/lightsSlice';

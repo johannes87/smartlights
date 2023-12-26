@@ -1,6 +1,6 @@
 import React from 'react';
-import LightSwitches from './components/LightSwitches';
-import Presets from './components/Presets';
+import LightSwitches from './components/lightswitches/LightSwitches';
+import Presets from './components/presets/Presets';
 import GlobalSnackBar from 'components/GlobalSnackBar';
 import { Paper } from '@mui/material';
 
