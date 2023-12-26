@@ -6,12 +6,12 @@ export default function BrightnessIndicator({
     background: `linear-gradient(to right, grey ${currentBrightness}%, transparent ${currentBrightness}%)`,
   };
   return (
-    <div
+    <button
       className="brightness-indicator-component"
       style={filledBackground}
       onClick={onIndicatorClick}
     >
       {currentBrightness} %
-    </div>
+    </button>
   );
 }

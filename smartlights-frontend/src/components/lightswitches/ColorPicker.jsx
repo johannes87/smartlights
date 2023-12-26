@@ -9,7 +9,7 @@ export default function ColorPicker({
   return (
     open && (
       <div className="color-picker-component">
-        <div className="page-background" onClick={onClose} />
+        <button className="page-background" onClick={onClose} />
         <RgbColorPicker color={{ ...currentColor }} onChange={onColorChange} />
       </div>
     )

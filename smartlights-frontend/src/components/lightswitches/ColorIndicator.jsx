@@ -10,7 +10,7 @@ export default function ColorIndicator({ lightStatus, onIndicatorClick }) {
   }
 
   return (
-    <div
+    <button
       className={`color-indicator-component ${isEnabled ? 'enabled' : ''}`}
       style={style}
       onClick={isEnabled && onIndicatorClick}
