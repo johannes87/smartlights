@@ -1,8 +1,8 @@
 import React from 'react';
 import { RgbColorPicker } from 'react-colorful';
-import { FormControlLabel, Switch } from '@mui/material';
 import BrightnessControlDialog from './BrightnessControlDialog';
 import BrightnessIndicator from './BrightnessIndicator';
+import LightSwitch from './LightSwitch';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
@@ -58,14 +58,6 @@ class SwitchAndColorPicker extends React.Component {
       return <div className={classNames} style={style} onClick={onClick} />;
     };
 
-    const lightSwitch = (
-      <Switch
-        disabled={this.props.lightStatus.power === 'disconnected'}
-        checked={this.props.lightStatus.power === 'on'}
-        onChange={this.handleSwitchChange}
-      />
-    );
-
     const colorPicker = () =>
       this.state.displayColorPicker && (
         <div className="ColorPicker">
@@ -84,9 +76,9 @@ class SwitchAndColorPicker extends React.Component {
           onIndicatorClick={this.handleBrightnessIndicatorClick}
           currentBrightness={this.props.lightStatus.brightness}
         />
-        <FormControlLabel
-          control={lightSwitch}
-          label={this.props.lightStatus.name}
+        <LightSwitch
+          lightStatus={this.props.lightStatus}
+          onSwitchChange={this.handleSwitchChange}
         />
         {colorPicker()}
         <BrightnessControlDialog
