@@ -60,8 +60,8 @@ class SwitchAndColorPicker extends React.Component {
     );
 
     const colorPicker = () => {
-      if (this.state.displayColorPicker) {
-        return (
+      return (
+        this.state.displayColorPicker && (
           <div className="ColorPicker">
             <div className="Cover" onClick={this.handleColorPickerClose} />
             <RgbaColorPicker
@@ -69,10 +69,8 @@ class SwitchAndColorPicker extends React.Component {
               onChange={this.handleColorChange}
             />
           </div>
-        );
-      } else {
-        return null;
-      }
+        )
+      );
     };
 
     return (
