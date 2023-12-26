@@ -46,7 +46,7 @@ class LightSwitchWithControls extends React.Component {
           onIndicatorClick={this.handleColorIndicatorClick}
         />
         <BrightnessIndicator
-          currentBrightness={this.props.lightStatus.brightness}
+          lightStatus={this.props.lightStatus}
           onIndicatorClick={this.handleBrightnessIndicatorClick}
         />
         <LightSwitch

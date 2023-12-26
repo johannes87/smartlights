@@ -9,6 +9,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  cursor: pointer;
   color: black;
+  opacity: 0.3;
+
+  &.enabled {
+    opacity: 1;
+    cursor: pointer;
+  }
 }
