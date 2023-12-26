@@ -1,9 +1,9 @@
 import React from 'react';
-import { RgbColorPicker } from 'react-colorful';
 import BrightnessControlDialog from './BrightnessControlDialog';
 import BrightnessIndicator from './BrightnessIndicator';
 import LightSwitch from './LightSwitch';
 import ColorIndicator from './ColorIndicator';
+import ColorPicker from './ColorPicker';
 
 class LightSwitchWithControls extends React.Component {
   state = {
@@ -39,17 +39,6 @@ class LightSwitchWithControls extends React.Component {
   };
 
   render() {
-    const colorPicker = () =>
-      this.state.displayColorPicker && (
-        <div className="ColorPicker">
-          <div className="Cover" onClick={this.handleColorPickerClose} />
-          <RgbColorPicker
-            color={{ ...this.props.lightStatus.color }}
-            onChange={this.handleColorChange}
-          />
-        </div>
-      );
-
     return (
       <div className="switch-and-color-picker-component">
         <ColorIndicator
@@ -64,7 +53,12 @@ class LightSwitchWithControls extends React.Component {
           lightStatus={this.props.lightStatus}
           onSwitchChange={this.handleSwitchChange}
         />
-        {colorPicker()}
+        <ColorPicker
+          currentColor={this.props.lightStatus.color}
+          open={this.state.displayColorPicker}
+          onClose={this.handleColorPickerClose}
+          onColorChange={this.handleColorChange}
+        />
         <BrightnessControlDialog
           open={this.state.displayBrightnessControl}
           onClose={() => this.setState({ displayBrightnessControl: false })}
