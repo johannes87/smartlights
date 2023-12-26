@@ -31,16 +31,14 @@ function getLightTypeLibrary(lightId) {
 }
 
 async function getLightStatus(lightId, lightConfig) {
+  let lightStatus = {
+    name: lightConfig.name,
+    power: 'disconnected',
+  };
   try {
     const lightTypeLibrary = getLightTypeLibrary(lightId);
-    let lightStatus = {
-      name: lightConfig.name,
-      power: 'disconnected',
-    };
-
     const fetchedStatus = await lightTypeLibrary.getStatus(lightConfig.host);
     lightStatus = { ...lightStatus, ...fetchedStatus };
-    return lightStatus;
   } catch (error) {
     console.error(
       `Couldn't get status from light "${lightId}" at host "${lightConfig.host}": ${error}`,
