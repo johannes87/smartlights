@@ -3,6 +3,7 @@ import { RgbColorPicker } from 'react-colorful';
 import BrightnessControlDialog from './BrightnessControlDialog';
 import BrightnessIndicator from './BrightnessIndicator';
 import LightSwitch from './LightSwitch';
+import ColorIndicator from './ColorIndicator';
 
 class SwitchAndColorPicker extends React.Component {
   state = {
@@ -10,7 +11,7 @@ class SwitchAndColorPicker extends React.Component {
     displayBrightnessControl: false,
   };
 
-  handleColorButtonClick = () => {
+  handleColorIndicatorClick = () => {
     this.setState((prevState) => ({
       displayColorPicker: !prevState.displayColorPicker,
     }));
@@ -38,26 +39,6 @@ class SwitchAndColorPicker extends React.Component {
   };
 
   render() {
-    const colorPickerButton = () => {
-      let classNames = 'ColorPickerButton';
-      let style = null;
-      let onClick = null;
-
-      if (this.props.lightStatus.power !== 'disconnected') {
-        const { r, g, b } = this.props.lightStatus.color;
-        style = {
-          background: `rgb(${r},${g},${b})`,
-        };
-      }
-
-      if (this.props.lightStatus.power === 'on') {
-        classNames += ' Enabled';
-        onClick = this.handleColorButtonClick;
-      }
-
-      return <div className={classNames} style={style} onClick={onClick} />;
-    };
-
     const colorPicker = () =>
       this.state.displayColorPicker && (
         <div className="ColorPicker">
@@ -71,7 +52,10 @@ class SwitchAndColorPicker extends React.Component {
 
     return (
       <div className="switch-and-color-picker-component">
-        {colorPickerButton()}
+        <ColorIndicator
+          lightStatus={this.props.lightStatus}
+          onIndicatorClick={this.handleColorIndicatorClick}
+        />
         <BrightnessIndicator
           onIndicatorClick={this.handleBrightnessIndicatorClick}
           currentBrightness={this.props.lightStatus.brightness}

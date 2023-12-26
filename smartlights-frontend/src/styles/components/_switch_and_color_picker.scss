@@ -17,21 +17,4 @@
     right: 0px;
     bottom: 0px;
   }
-
-  .ColorPickerButton {
-    display: inline-flex;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    flex-grow: 0;
-    border: 1px solid black;
-    border-radius: 8px;
-    margin-right: 0.8em;
-    opacity: 0.3;
-
-    &.Enabled {
-      opacity: 1;
-      cursor: pointer;
-    }
-  }
 }
