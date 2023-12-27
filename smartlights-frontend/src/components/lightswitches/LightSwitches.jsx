@@ -32,51 +32,57 @@ class LightSwitches extends React.Component {
   };
 
   handleLightPowerChange = async (lightId, power) => {
-    await API.setLightPower(lightId, power);
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        lightStatuses: {
-          ...prevState.lightStatuses,
-          [lightId]: {
-            ...prevState.lightStatuses[lightId],
-            power,
+    this.setState(
+      (prevState) => {
+        return {
+          ...prevState,
+          lightStatuses: {
+            ...prevState.lightStatuses,
+            [lightId]: {
+              ...prevState.lightStatuses[lightId],
+              power,
+            },
           },
-        },
-      };
-    });
+        };
+      },
+      async () => await API.setLightPower(lightId, power),
+    );
   };
 
   handleLightColorChange = async (lightId, color) => {
-    await API.setLightColor(lightId, color);
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        lightStatuses: {
-          ...prevState.lightStatuses,
-          [lightId]: {
-            ...prevState.lightStatuses[lightId],
-            color,
+    this.setState(
+      (prevState) => {
+        return {
+          ...prevState,
+          lightStatuses: {
+            ...prevState.lightStatuses,
+            [lightId]: {
+              ...prevState.lightStatuses[lightId],
+              color,
+            },
           },
-        },
-      };
-    });
+        };
+      },
+      async () => await API.setLightColor(lightId, color),
+    );
   };
 
   handleLightBrightnessChange = async (lightId, brightness) => {
-    await API.setLightBrightness(lightId, brightness);
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        lightStatuses: {
-          ...prevState.lightStatuses,
-          [lightId]: {
-            ...prevState.lightStatuses[lightId],
-            brightness,
+    this.setState(
+      (prevState) => {
+        return {
+          ...prevState,
+          lightStatuses: {
+            ...prevState.lightStatuses,
+            [lightId]: {
+              ...prevState.lightStatuses[lightId],
+              brightness,
+            },
           },
-        },
-      };
-    });
+        };
+      },
+      async () => await API.setLightBrightness(lightId, brightness),
+    );
   };
 
   handleVisibilityChange = () => {
