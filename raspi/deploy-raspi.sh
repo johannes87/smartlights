@@ -28,7 +28,6 @@ function server_command_root() {
 cd ..
 
 # frontend
-export REACT_APP_BACKEND_URL=$BACKEND_URL
 echo "Building frontend..."
 (cd smartlights-frontend && npm ci --only=production && npm run build)
 rsync -av --del smartlights-frontend/build/ $DESTINATION:web

@@ -10,7 +10,7 @@
 Change "server.hostname" to the locally reachable hostname of the server
 in the first command:
 
-1. `docker-compose build --build-arg REACT_APP_BACKEND_URL="http://server.hostname:4001"`
+1. `docker-compose build`
 
 2. `docker-compose up`
 
