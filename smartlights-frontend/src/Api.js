@@ -4,7 +4,9 @@ import { DateTime } from 'luxon';
  * @param {string} path
  */
 function getEndpointUrl(path) {
-  return new URL(path, process.env.REACT_APP_BACKEND_URL);
+  const backendPort = 8000;
+  const backendBaseURL = `${window.location.protocol}//${window.location.hostname}:${backendPort}`;
+  return new URL(path, backendBaseURL);
 }
 
 /**
